@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('persons', function (Blueprint $table) {
             $table->increments('id');
-
             $table->enum('type', ['customers', 'suppliers']);
             $table->string('identity_document_type_id');
             $table->string('number');
