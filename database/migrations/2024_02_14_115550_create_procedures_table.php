@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('procedures', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('specialty_id');
+            $table->unsignedInteger('specialty_id');
             $table->string('type');
             $table->string('description');
             $table->timestamps();
