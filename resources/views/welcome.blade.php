@@ -60,7 +60,7 @@
                                         <td class="text-center">{{ $item->age }} años</td>
                                         <td class="text-center">{{ $item->telephone }}</td>
                                         <td class="text-center">
-                                            <form action="#" method="GET">
+                                            <form action="{{ route('persons.edit', $item->id) }}" method="GET">
                                                 <button class="btn">
                                                     <i class='bx bx-edit bx-sm' style="color: #EFAA0B"></i>
                                                 </button>

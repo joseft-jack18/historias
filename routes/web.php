@@ -19,4 +19,7 @@ use App\Http\Controllers\PersonsController;
 });*/
 
 Route::get('/', [PersonsController::class, 'index'])->name('persons.index');
-Route::get('/create', [PersonsController::class, 'create'])->name('persons.create');
+Route::get('/create_person', [PersonsController::class, 'create'])->name('persons.create');
+Route::post('/store_person', [PersonsController::class, 'store'])->name('persons.store');
+Route::get('/edit_person/{id}', [PersonsController::class, 'edit'])->name('persons.edit');
+Route::put('/update_person/{id}', [PersonsController::class, 'update'])->name('persons.update');

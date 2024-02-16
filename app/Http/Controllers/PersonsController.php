@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CatIdentityDocumentTypes;
+use App\Models\Countries;
+use App\Models\Departments;
 use App\Models\Persons;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -23,12 +26,29 @@ class PersonsController extends Controller
 
     public function create()
     {
-        return view('agregar');
+        $document_types = CatIdentityDocumentTypes::all();
+        $countries = Countries::all();
+        //$departments = Departments::all();
+
+        return view('create_person', compact('document_types', 'countries'));
     }
 
     public function store(Request $request)
     {
-        //
+        $person = new Persons();
+        $person->type = $request->post('type');
+        $person->identity_document_type_id = $request->post('identity_document_type_id');
+        $person->number = $request->post('number');
+        $person->name = $request->post('name');
+        $person->trade_name = $request->post('name');
+        $person->country_id = $request->post('country_id');
+        $person->birthdate = $request->post('birthdate');
+        $person->address = $request->post('address');
+        $person->email = $request->post('email');
+        $person->telephone = $request->post('telephone');
+        $person->save();
+
+        return redirect()->route('persons.index')->with('success','Agregado con éxito');
     }
 
     public function show(Persons $persons)
@@ -36,14 +56,31 @@ class PersonsController extends Controller
         //
     }
 
-    public function edit(Persons $persons)
+    public function edit($id)
     {
-        //
+        $person = Persons::find($id);
+        $document_types = CatIdentityDocumentTypes::all();
+        $countries = Countries::all();
+
+        return view('edit_person', compact('person', 'document_types', 'countries'));
     }
 
-    public function update(Request $request, Persons $persons)
+    public function update(Request $request, $id)
     {
-        //
+        $person = Persons::find($id);
+
+        $person->identity_document_type_id = $request->post('identity_document_type_id');
+        $person->number = $request->post('number');
+        $person->name = $request->post('name');
+        $person->trade_name = $request->post('name');
+        $person->country_id = $request->post('country_id');
+        $person->birthdate = $request->post('birthdate');
+        $person->address = $request->post('address');
+        $person->email = $request->post('email');
+        $person->telephone = $request->post('telephone');
+        $person->save();
+
+        return redirect()->route('persons.index')->with('success','Editado con éxito');
     }
 
     public function destroy(Persons $persons)
