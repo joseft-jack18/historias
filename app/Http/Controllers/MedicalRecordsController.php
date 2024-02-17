@@ -22,7 +22,7 @@ class MedicalRecordsController extends Controller
     public function create($id)
     {
         $diagnoses = Diagnoses::all();
-        $personHistory = PersonHistory::all();
+        $personHistory = PersonHistory::where('person_id', '=', $id)->first();
         $procedures = Procedures::all();
         $person = Persons::find($id);
         $person->age = Carbon::parse($person->birthdate)->age;

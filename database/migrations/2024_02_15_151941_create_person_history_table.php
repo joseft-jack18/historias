@@ -23,6 +23,17 @@ return new class extends Migration
 
             $table->foreign('person_id')->references('id')->on('persons');
         });
+
+        DB::table('person_history')->insert([
+            [
+                "person_id" => 1,
+                "personal_history" => '',
+                "allergies_history" => '',
+                "family_history" => '',
+                "created_at" => "2024-02-15 16:38:16",
+                "updated_at" => "2024-02-15 16:38:17"
+            ],
+        ]);
     }
 
     /**

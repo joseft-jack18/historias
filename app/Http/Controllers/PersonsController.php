@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CatIdentityDocumentTypes;
+use Carbon\Carbon;
+use App\Models\Persons;
 use App\Models\Countries;
 use App\Models\Departments;
-use App\Models\Persons;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Models\PersonHistory;
+use App\Models\CatIdentityDocumentTypes;
 
 class PersonsController extends Controller
 {
@@ -47,6 +48,15 @@ class PersonsController extends Controller
         $person->email = $request->post('email');
         $person->telephone = $request->post('telephone');
         $person->save();
+
+        $id = $person->id;
+
+        $histori = new PersonHistory();
+        $histori->person_id = $id;
+        $histori->personal_history = '';
+        $histori->allergies_history = '';
+        $histori->family_history = '';
+        $histori->save();
 
         return redirect()->route('persons.index')->with('success','Agregado con éxito');
     }
