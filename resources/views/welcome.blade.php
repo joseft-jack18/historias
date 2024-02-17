@@ -67,10 +67,10 @@
                                             </form>
                                         </td>
                                         <td class="text-center">
-                                            <a href="#" class="btn">
+                                            <a href="{{ route('history.create', $item->id) }}" class="btn">
                                                 <i class='bx bx-folder-plus bx-sm' style="color: #138623"></i>
                                             </a>
-                                            <a href="#" class="btn">
+                                            <a href="{{ route('history.index', $item->id) }}" class="btn">
                                                 <i class='bx bx-folder-open bx-sm' style="color: #C10814"></i>
                                             </a>
                                         </td>
