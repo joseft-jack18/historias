@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Persons;
-use App\Models\Diagnoses;
 use App\Models\Procedures;
 use Illuminate\Http\Request;
 use App\Models\PersonHistory;
@@ -21,13 +20,11 @@ class MedicalRecordsController extends Controller
 
     public function create($id)
     {
-        $diagnoses = Diagnoses::all();
         $personHistory = PersonHistory::where('person_id', '=', $id)->first();
-        $procedures = Procedures::all();
         $person = Persons::find($id);
         $person->age = Carbon::parse($person->birthdate)->age;
 
-        return view('create_history', compact('person', 'diagnoses', 'personHistory', 'procedures'));
+        return view('create_history', compact('person', 'personHistory'));
     }
 
     public function store(Request $request)

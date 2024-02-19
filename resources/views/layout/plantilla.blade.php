@@ -6,6 +6,7 @@
     <title>@yield('titulo')</title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.min.css') }}">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <!-- overlayScrollbars -->
@@ -88,6 +89,7 @@
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- Bootstrap -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- overlayScrollbars -->
@@ -106,5 +108,7 @@
     <script src="{{ asset('dist/js/pages/dashboard2.js') }}"></script>
     <!-- Box Icons script -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+    @yield('js')
 </body>
 </html>

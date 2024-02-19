@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonsController;
 use App\Http\Controllers\MedicalRecordsController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +26,9 @@ Route::post('/store_person', [PersonsController::class, 'store'])->name('persons
 Route::get('/edit_person/{id}', [PersonsController::class, 'edit'])->name('persons.edit');
 Route::put('/update_person/{id}', [PersonsController::class, 'update'])->name('persons.update');
 
+
 Route::get('/history/{id}', [MedicalRecordsController::class, 'index'])->name('history.index');
 Route::get('/history/create/{id}', [MedicalRecordsController::class, 'create'])->name('history.create');
+
+
+Route::get('/search/autocomplete_dp', [SearchController::class, 'autocomplete_dp'])->name('search.autocomplete_dp');

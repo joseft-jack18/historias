@@ -207,14 +207,8 @@
 
                                             <div class="tab-pane fade" id="diagnosticos" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
                                                 <h5>Diagnosticos Presuntivos</h5>
-                                                <div id="rowp_1" class="row">
-                                                    <div class="col-md-11">
-                                                        <input type="text" class="form-control input_dp" name="nom_diagnosticop[]" id="nom_diagnosticop_1" placeholder="Diágnostico">
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <button type="button" class="btn btn-success col-md-12" id="btn_add1"><i class="fa-solid fa-plus"></i></button>
-                                                    </div>
-                                                </div>
+                                                <input type="text" class="form-control" id="diagnostico_p">
+
                                                 <div class="row" id="diagnosticos_presuntivos"></div>
 
                                                 <br>
@@ -376,5 +370,39 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+
+@endsection
+
+@section('js')
+
+    <script>
+        var diagnosticos_presuntivos = [];
+
+        $('#diagnostico_p').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{{ route('search.autocomplete_dp') }}",
+                    dataType: 'json',
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 3, // Número mínimo de caracteres antes de que comience la autocompletar
+            select: function(event, ui) {
+                // Acción a realizar cuando se selecciona un elemento del autocompletado
+                console.log(ui.item.id);
+                // Ejemplo de acción: redirigir a una página con el valor seleccionado
+                //window.location.href = "/detalle/" + selectedValue;
+            }
+        });
+
+        function agregar_dp(){
+            
+        }
+    </script>
 
 @endsection
