@@ -206,26 +206,31 @@
                                             </div>
 
                                             <div class="tab-pane fade" id="diagnosticos" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                                                <h5>Diagnosticos Presuntivos</h5>
-                                                <input type="text" class="form-control" id="diagnostico_p">
-
-                                                <div class="row" id="diagnosticos_presuntivos"></div>
-
-                                                <br>
-                                                <hr>
-
-                                                <h5>Diagnosticos Definitivos</h5>
-                                                <div id="rowd_1" class="row">
-                                                    <div class="col-md-11">
-                                                        <input type="text" class="form-control input_dd" name="nom_diagnosticod[]" id="nom_diagnosticod_1" placeholder="Diágnostico">
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <button type="button" class="btn btn-success col-md-12" id="btn_add2"><i class="fa-solid fa-plus"></i></button>
+                                                <div class="row g-3">
+                                                    <div class="col-md-12 mb-2">
+                                                        <h5>Diagnosticos Presuntivos</h5>
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="diagnostico_p"></td>
+                                                            </tr>
+                                                            <div id="diagnosticos_presuntivos"></div>
+                                                        </table>
                                                     </div>
                                                 </div>
-                                                <div class="row-fluid" id="diagnosticos_definitivos"></div>
 
-                                                <br>
+                                                <hr>
+
+                                                <div class="row g-3">
+                                                    <div class="col-md-12 mb-2">
+                                                        <h5>Diagnosticos Definitivos</h5>
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="diagnostico_d"></td>
+                                                            </tr>
+                                                            <div id="diagnosticos_definitivos"></div>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="tab-pane fade" id="planes" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
@@ -377,11 +382,15 @@
 
     <script>
         var diagnosticos_presuntivos = [];
+        var diagnosticos_definitivos = [];
+        var dp_texto = "";
+        var dd_texto = "";
 
+        //DIAGNOSTICOS PRESUNTIVOS------------------------------------------------------------------------------------------------
         $('#diagnostico_p').autocomplete({
             source: function(request, response) {
                 $.ajax({
-                    url: "{{ route('search.autocomplete_dp') }}",
+                    url: "{{ route('search.autocomplete_diagnosticos') }}",
                     dataType: 'json',
                     data: {
                         term: request.term
@@ -391,18 +400,112 @@
                     }
                 });
             },
-            minLength: 3, // Número mínimo de caracteres antes de que comience la autocompletar
+            minLength: 3,
             select: function(event, ui) {
-                // Acción a realizar cuando se selecciona un elemento del autocompletado
-                console.log(ui.item.id);
-                // Ejemplo de acción: redirigir a una página con el valor seleccionado
-                //window.location.href = "/detalle/" + selectedValue;
+                agregar_dp(ui.item);
+                $(this).val('');
+                return false;
             }
         });
 
-        function agregar_dp(){
-            
+        function agregar_dp(diagnostico_p){
+            let diagnostico = {};
+            dp_texto = "";
+
+            diagnostico = {
+                id: diagnostico_p.id,
+                text: diagnostico_p.label,
+            }
+
+            if(!diagnosticos_presuntivos.find(x=>x.id === diagnostico_p.id)){
+                diagnosticos_presuntivos.push(diagnostico);
+            }
+
+            diagnosticos_presuntivos.forEach(function(diagnostico) {
+                dp_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+diagnostico.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_dp('
+                            +diagnostico.id+')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+
+            $('#diagnosticos_presuntivos').html(dp_texto);
         }
+
+        function eliminar_dp(id){
+            dp_texto = "";
+            let indiceEliminar = diagnosticos_presuntivos.findIndex(objeto => objeto.id === id);
+
+            if (indiceEliminar !== -1) {
+                diagnosticos_presuntivos.splice(indiceEliminar, 1);
+            }
+
+            diagnosticos_presuntivos.forEach(function(diagnostico_presuntivo) {
+                dp_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+diagnostico_presuntivo.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_dp('
+                            +diagnostico_presuntivo.id+')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+            $('#diagnosticos_presuntivos').html(dp_texto);
+        }
+
+        //DIAGNOSTICOS DEFINITIVOS------------------------------------------------------------------------------------------------
+        $('#diagnostico_d').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{{ route('search.autocomplete_diagnosticos') }}",
+                    dataType: 'json',
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 3,
+            select: function(event, ui) {
+                agregar_dd(ui.item);
+                $(this).val('');
+                return false;
+            }
+        });
+
+        function agregar_dd(diagnostico_d){
+            let diagnostico = {};
+            dd_texto = "";
+
+            diagnostico = {
+                id: diagnostico_d.id,
+                text: diagnostico_d.label,
+            }
+
+            if(!diagnosticos_definitivos.find(x=>x.id === diagnostico_d.id)){
+                diagnosticos_definitivos.push(diagnostico);
+            }
+
+            diagnosticos_definitivos.forEach(function(diagnostico) {
+                dd_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+diagnostico.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_dd('
+                            +diagnostico.id+')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+
+            $('#diagnosticos_definitivos').html(dd_texto);
+        }
+
+        function eliminar_dd(id){
+            dd_texto = "";
+            let indiceEliminar = diagnosticos_definitivos.findIndex(objeto => objeto.id === id);
+
+            if (indiceEliminar !== -1) {
+                diagnosticos_definitivos.splice(indiceEliminar, 1);
+            }
+
+            diagnosticos_definitivos.forEach(function(diagnostico) {
+                dd_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+diagnostico.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_dd('
+                            +diagnostico.id+')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+            $('#diagnosticos_definitivos').html(dd_texto);
+        }
+
     </script>
 
 @endsection

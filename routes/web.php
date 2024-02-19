@@ -31,4 +31,4 @@ Route::get('/history/{id}', [MedicalRecordsController::class, 'index'])->name('h
 Route::get('/history/create/{id}', [MedicalRecordsController::class, 'create'])->name('history.create');
 
 
-Route::get('/search/autocomplete_dp', [SearchController::class, 'autocomplete_dp'])->name('search.autocomplete_dp');
+Route::get('/search/autocomplete_d', [SearchController::class, 'autocomplete_diagnosticos'])->name('search.autocomplete_diagnosticos');
