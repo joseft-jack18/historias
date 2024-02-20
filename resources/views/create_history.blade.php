@@ -57,14 +57,14 @@
                                             <div class="tab-pane fade show active" id="enfermedad" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
                                                 <div class="row g-3">
                                                     <div class="col-md-2 mb-2">
-                                                        <label for="numero" class="form-label">T. Enfermedad</label>
-                                                        <input type="text" class="form-control" id="numero" name="numero">
+                                                        <label for="quantity" class="form-label">T. Enfermedad</label>
+                                                        <input type="text" class="form-control" id="quantity" name="quantity">
                                                         <input type="hidden" class="form-control" id="person_id" name="person_id" value="{{ $person->id }}">
                                                     </div>
 
                                                     <div class="col-md-3 mb-2">
-                                                        <label for="tiempo" class="form-label">&nbsp;</label><br>
-                                                        <select class="custom-select rounded-0" id="tiempo" name="tiempo">
+                                                        <label for="time" class="form-label">&nbsp;</label><br>
+                                                        <select class="custom-select rounded-0" id="time" name="time">
                                                             <option value="0" selected>--Seleccione--</option>
                                                             <option value="1">Horas</option>
                                                             <option value="2">Dias</option>
@@ -74,18 +74,18 @@
                                                     </div>
 
                                                     <div class="col-md-7 mb-2">
-                                                        <label for="motivo_consulta" class="form-label">Motivo de Consulta</label>
-                                                        <input type="text" class="form-control" id="motivo_consulta" name="motivo_consulta">
+                                                        <label for="reason_consultation" class="form-label">Motivo de Consulta</label>
+                                                        <input type="text" class="form-control" id="reason_consultation" name="reason_consultation">
                                                     </div>
 
                                                     <div class="col-md-12 mb-2">
-                                                        <label for="sintomas_principales" class="form-label">Signos y Síntomas principales</label>
-                                                        <textarea class="form-control" id="sintomas_principales" name="sintomas_principales" rows="3"></textarea>
+                                                        <label for="main_symptoms" class="form-label">Signos y Síntomas principales</label>
+                                                        <textarea class="form-control" id="main_symptoms" name="main_symptoms" rows="3"></textarea>
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label for="sed" class="form-label">Sed</label>
-                                                        <select class="custom-select rounded-0" id="sed" name="sed">
+                                                        <label for="thirst" class="form-label">Sed</label>
+                                                        <select class="custom-select rounded-0" id="thirst" name="thirst">
                                                             <option value="0" selected>--Seleccione--</option>
                                                             <option value="1">Disminuido</option>
                                                             <option value="2">Normal</option>
@@ -94,8 +94,8 @@
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label for="apetito" class="form-label">Apetito</label>
-                                                        <select class="custom-select rounded-0" id="apetito" name="apetito">
+                                                        <label for="appetite" class="form-label">Apetito</label>
+                                                        <select class="custom-select rounded-0" id="appetite" name="appetite">
                                                             <option value="0" selected>--Seleccione--</option>
                                                             <option value="1">Disminuido</option>
                                                             <option value="2">Normal</option>
@@ -104,8 +104,8 @@
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label for="sueño" class="form-label">Sueño</label>
-                                                        <select class="custom-select rounded-0" id="sueño" name="sueño">
+                                                        <label for="dream" class="form-label">Sueño</label>
+                                                        <select class="custom-select rounded-0" id="dream" name="dream">
                                                             <option value="0" selected>--Seleccione--</option>
                                                             <option value="1">Disminuido</option>
                                                             <option value="2">Normal</option>
@@ -114,8 +114,8 @@
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label for="ritmo_urinario" class="form-label">Ritmo Urinario</label>
-                                                        <select class="custom-select rounded-0" id="ritmo_urinario" name="ritmo_urinario">
+                                                        <label for="urinary_rhythm" class="form-label">Ritmo Urinario</label>
+                                                        <select class="custom-select rounded-0" id="urinary_rhythm" name="urinary_rhythm">
                                                             <option value="0" selected>--Seleccione--</option>
                                                             <option value="1">Disminuido</option>
                                                             <option value="2">Normal</option>
@@ -124,8 +124,8 @@
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label for="ritmo_evacuatorio" class="form-label">Ritmo Evacuatorio</label>
-                                                        <select class="custom-select rounded-0" id="ritmo_evacuatorio" name="ritmo_evacuatorio">
+                                                        <label for="evacuation_rhythm" class="form-label">Ritmo Evacuatorio</label>
+                                                        <select class="custom-select rounded-0" id="evacuation_rhythm" name="evacuation_rhythm">
                                                             <option value="0" selected>--Seleccione--</option>
                                                             <option value="1">Disminuido</option>
                                                             <option value="2">Normal</option>
@@ -138,18 +138,18 @@
                                             <div class="tab-pane fade" id="antecedentes" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
                                                 <div class="row g-3">
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="antecedentes_personales" class="form-label">Antecedentes Personales</label>
-                                                        <textarea class="form-control" id="antecedentes_personales" name="antecedentes_personales" rows="3">{{ $personHistory->personal_history }}</textarea>
+                                                        <label for="personal_history" class="form-label">Antecedentes Personales</label>
+                                                        <textarea class="form-control" id="personal_history" name="personal_history" rows="3">{{ $personHistory->personal_history }}</textarea>
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="antecedentes_alergias" class="form-label">Antecedentes de Alergias</label>
-                                                        <textarea class="form-control" id="antecedentes_alergias" name="antecedentes_alergias" rows="3">{{ $personHistory->allergies_history }}</textarea>
+                                                        <label for="allergies_history" class="form-label">Antecedentes de Alergias</label>
+                                                        <textarea class="form-control" id="allergies_history" name="allergies_history" rows="3">{{ $personHistory->allergies_history }}</textarea>
                                                     </div>
 
                                                     <div class="col-md-12">
-                                                        <label for="antecedentes_familiares" class="form-label">Antecedentes Familiares</label>
-                                                        <textarea class="form-control" id="antecedentes_familiares" name="antecedentes_familiares" rows="3">{{ $personHistory->family_history }}</textarea>
+                                                        <label for="family_history" class="form-label">Antecedentes Familiares</label>
+                                                        <textarea class="form-control" id="family_history" name="family_history" rows="3">{{ $personHistory->family_history }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -157,50 +157,48 @@
                                             <div class="tab-pane fade" id="examenes" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
                                                 <div class="row g-3">
                                                     <div class="col-md-4 mb-2">
-                                                        <label for="frecuencia_cardiaca" class="form-label">Frec. Cardiaca (por minuto)</label>
-                                                        <input type="text" class="form-control" id="frecuencia_cardiaca" name="frecuencia_cardiaca">
+                                                        <label for="heart_rate" class="form-label">Frec. Cardiaca (por minuto)</label>
+                                                        <input type="text" class="form-control" id="heart_rate" name="heart_rate">
                                                     </div>
 
                                                     <div class="col-md-4 mb-2">
-                                                        <label for="frecuencia_respiratoria" class="form-label">Frec. Respiratoria (por minuto)</label>
-                                                        <input type="text" class="form-control" id="frecuencia_respiratoria" name="frecuencia_respiratoria">
+                                                        <label for="breathing_frequency" class="form-label">Frec. Respiratoria (por minuto)</label>
+                                                        <input type="text" class="form-control" id="breathing_frequency" name="breathing_frequency">
                                                     </div>
 
                                                     <div class="col-md-4 mb-2">
-                                                        <label for="presion_arterial" class="form-label">Presion Arterial (mmHg)</label>
-                                                        <input type="text" class="form-control" id="presion_arterial" name="presion_arterial">
+                                                        <label for="blood_pressure" class="form-label">Presion Arterial (mmHg)</label>
+                                                        <input type="text" class="form-control" id="blood_pressure" name="blood_pressure">
                                                     </div>
 
                                                     <div class="col-md-4 mb-2">
-                                                        <label for="temperatura" class="form-label">Temperatura (°C)</label>
-                                                        <input type="text" class="form-control" id="temperatura" name="temperatura">
+                                                        <label for="temperature" class="form-label">Temperatura (°C)</label>
+                                                        <input type="text" class="form-control" id="temperature" name="temperature">
                                                     </div>
 
                                                     <div class="col-md-2 mb-2">
-                                                        <label for="peso" class="form-label">Peso (Kg)</label>
-                                                        <input type="text" class="form-control" id="peso" name="peso">
+                                                        <label for="weight" class="form-label">Peso (Kg)</label>
+                                                        <input type="text" class="form-control" id="weight" name="weight">
                                                     </div>
 
                                                     <div class="col-md-2 mb-2">
-                                                        <label for="talla" class="form-label">Talla (m)</label>
-                                                        <input type="text" class="form-control" id="talla" name="talla">
+                                                        <label for="size" class="form-label">Talla (m)</label>
+                                                        <input type="text" class="form-control" id="size" name="size">
                                                     </div>
 
                                                     <div class="col-md-4 mb-2">
                                                         <label for="imc" class="form-label">IMC</label>
-                                                        <input type="text" class="form-control" id="imc" name="imc">
+                                                        <input type="text" class="form-control" id="imc" name="imc" >
                                                     </div>
 
                                                     <div class="col-md-12 mb-2">
-                                                        <label for="examen_general" class="form-label">Examen General</label>
-                                                        <input type="HIDDEN" class="form-control" id="lotep" name="lotep" value="1">
-                                                        <input type="HIDDEN" class="form-control" id="aparente" name="aparente" value="1">
-                                                        <textarea class="form-control" id="examen_general" name="examen_general" rows="3"></textarea>
+                                                        <label for="general_exam" class="form-label">Examen General</label>
+                                                        <textarea class="form-control" id="general_exam" name="general_exam" rows="3"></textarea>
                                                     </div>
 
                                                     <div class="col-md-12">
-                                                        <label for="examen_preferencial" class="form-label">Examen Preferencial</label>
-                                                        <textarea class="form-control" id="examen_preferencial" name="examen_preferencial" rows="3"></textarea>
+                                                        <label for="preferential_exam" class="form-label">Examen Preferencial</label>
+                                                        <textarea class="form-control" id="preferential_exam" name="preferential_exam" rows="3"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -306,21 +304,22 @@
                                                     </div>
 
                                                     <div class="col-12">
-                                                        <label for="medidas_higienica" class="form-label">Recomendaciones</label>
-                                                        <textarea class="form-control" id="medidas_higienica" name="medidas_higienica" rows="3"></textarea>
+                                                        <label for="hygienic_measures" class="form-label">Recomendaciones</label>
+                                                        <textarea class="form-control" id="hygienic_measures" name="hygienic_measures" rows="3"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="tab-pane fade" id="observaciones" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
                                                 <div class="row g-3">
                                                     <div class="col-12 mb-2">
-                                                        <label for="observaciones" class="form-label">Observaciones</label>
-                                                        <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+                                                        <label for="observations" class="form-label">Observaciones</label>
+                                                        <textarea class="form-control" id="observations" name="observations" rows="3"></textarea>
                                                     </div>
 
                                                     <div class="col-md-4">
-                                                        <label for="proxima_cita" class="form-label">Próxima Cita</label>
-                                                        <input type="date" class="form-control" id="proxima_cita" name="proxima_cita">
+                                                        <label for="next_attention" class="form-label">Próxima Cita</label>
+                                                        <input type="date" class="form-control" id="next_attention" name="next_attention">
                                                     </div>
                                                 </div>
                                             </div>
