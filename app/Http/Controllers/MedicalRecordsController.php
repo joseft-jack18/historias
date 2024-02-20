@@ -29,7 +29,9 @@ class MedicalRecordsController extends Controller
 
     public function store(Request $request)
     {
-        //
+        dd($request);
+
+        //$datos = json_decode($request->datos);
     }
 
     public function show(MedicalRecords $medicalRecords)

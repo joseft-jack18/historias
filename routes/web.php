@@ -29,6 +29,8 @@ Route::put('/update_person/{id}', [PersonsController::class, 'update'])->name('p
 
 Route::get('/history/{id}', [MedicalRecordsController::class, 'index'])->name('history.index');
 Route::get('/history/create/{id}', [MedicalRecordsController::class, 'create'])->name('history.create');
+Route::post('/history/store', [MedicalRecordsController::class, 'store'])->name('history.store');
 
 
 Route::get('/search/autocomplete_d', [SearchController::class, 'autocomplete_diagnosticos'])->name('search.autocomplete_diagnosticos');
+Route::get('/search/autocomplete_i', [SearchController::class, 'autocomplete_interconsultas'])->name('search.autocomplete_interconsultas');

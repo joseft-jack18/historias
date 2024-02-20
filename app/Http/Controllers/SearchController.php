@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diagnoses;
+use App\Models\Specialties;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -20,6 +21,22 @@ class SearchController extends Controller
             $data[] = [
                 'id' => $query->id,
                 'label' => $query->internal_id.' - '.$query->description,
+            ];
+        }
+
+        return $data;
+    }
+
+    public function autocomplete_interconsultas(Request $request)
+    {
+        $data = [];
+        $term = $request->get('term');
+        $querys = Specialties::all();
+
+        foreach($querys as $query){
+            $data[] = [
+                'id' => $query->id,
+                'label' => $query->description,
             ];
         }
 

@@ -23,7 +23,7 @@
                     <!-- general form elements -->
                     <div class="card">
                         <!-- form start -->
-                        <form action="{{ route('persons.store') }}" method="POST">
+                        <form action="{{ route('history.store') }}" method="POST">
                             @csrf
                             <div class="card-body">
                                 <div class="card card-primary card-outline card-outline-tabs">
@@ -188,7 +188,7 @@
 
                                                     <div class="col-md-4 mb-2">
                                                         <label for="imc" class="form-label">IMC</label>
-                                                        <input type="text" class="form-control" id="imc" name="imc" >
+                                                        <input type="text" class="form-control" id="imc" name="imc" readonly>
                                                     </div>
 
                                                     <div class="col-md-12 mb-2">
@@ -205,8 +205,9 @@
 
                                             <div class="tab-pane fade" id="diagnosticos" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
                                                 <div class="row g-3">
-                                                    <div class="col-md-12 mb-2">
+                                                    <div class="col-12 mb-2">
                                                         <h5>Diagnosticos Presuntivos</h5>
+                                                        <input type="hidden" class="form-control" id="diagnosticosPresuntivos" name="diagnosticosPresuntivos" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="diagnostico_p"></td>
@@ -219,8 +220,9 @@
                                                 <hr>
 
                                                 <div class="row g-3">
-                                                    <div class="col-md-12 mb-2">
+                                                    <div class="col-12 mb-2">
                                                         <h5>Diagnosticos Definitivos</h5>
+                                                        <input type="hidden" class="form-control" id="diagnosticosDefinitivos" name="diagnosticosDefinitivos" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="diagnostico_d"></td>
@@ -233,77 +235,74 @@
 
                                             <div class="tab-pane fade" id="planes" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
                                                 <div class="row g-3">
-                                                    <div class="col-6 mb-3">
+                                                    <div class="col-6 mb-2">
                                                         <h5>Exámenes de Laboratorio</h5>
-                                                        <div id="rowl_1" class="row">
-                                                            <div class="col-md-10">
-                                                                <input type="text" class="form-control" name="laboratorio[]" id="laboratorio_1">
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <button type="button" class="btn btn-success col-md-12" id="btn_add3"><i class="fa-solid fa-plus"></i></button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row-fluid" id="laboratorio"></div>
+                                                        <input type="text" class="form-control" id="examenesLaboratorio" name="examenesLaboratorio" readonly>
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="laboratorio"></td>
+                                                            </tr>
+                                                            <div id="examenes_laboratorio"></div>
+                                                        </table>
                                                     </div>
 
-                                                    <div class="col-6 mb-3">
+                                                    <div class="col-6 mb-2">
                                                         <h5>Exámenes Radiológicos</h5>
-                                                        <div id="rowr_1" class="row">
-                                                            <div class="col-md-10">
-                                                                <input type="text" class="form-control" name="radiologia[]" id="radiologia_1">
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <button type="button" class="btn btn-success col-md-12" id="btn_add4"><i class="fa-solid fa-plus"></i></button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row-fluid" id="radiologia"></div>
+                                                        <input type="text" class="form-control" id="examenesRadiologicos" name="examenesRadiologicos" readonly>
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="radiologicos"></td>
+                                                            </tr>
+                                                            <div id="examenes_radiologicos"></div>
+                                                        </table>
                                                     </div>
 
-                                                    <div class="col-6">
+                                                    <div class="col-6 mb-2">
                                                         <h5>Procedimientos Especiales</h5>
-                                                        <div id="rowe_1" class="row">
-                                                            <div class="col-md-10">
-                                                                <input type="text" class="form-control" name="procedimientos[]" id="procedimientos_1">
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <button type="button" class="btn btn-success col-md-12" id="btn_add5"><i class="fa-solid fa-plus"></i></button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row-fluid" id="procedimiento"></div>
+                                                        <input type="text" class="form-control" id="procedimientosEspeciales" name="procedimientosEspeciales" readonly>
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="procedimientos"></td>
+                                                            </tr>
+                                                            <div id="procedimientos_especiales"></div>
+                                                        </table>
                                                     </div>
 
-                                                    <div class="col-6">
+                                                    <div class="col-6 mb-2">
                                                         <h5>Interconsultas</h5>
-                                                        <div id="rowi_1" class="row">
-                                                            <div class="col-md-10">
-                                                                <input type="text" class="form-control" name="interconsultas[]" id="interconsultas_1">
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <button type="button" class="btn btn-success col-md-12" id="btn_add6"><i class="fa-solid fa-plus"></i></button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row-fluid" id="interconsulta"></div>
+                                                        <input type="text" class="form-control" id="interconsultasMedicas" name="interconsultasMedicas" readonly>
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="interconsultas"></td>
+                                                            </tr>
+                                                            <div id="interconsultas_medicas"></div>
+                                                        </table>
                                                     </div>
                                                 </div>
-                                                <br>
                                             </div>
 
                                             <div class="tab-pane fade" id="tratamientos" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                                                <div class="row g-3">
+                                                <div class="row">
                                                     <div class="col-12">
-                                                        <div id="rowm_1" class="row">
-                                                            <div class="col-8"><input type="text" class="form-control" name="nombre_medicamento[]" id="nombre_medicamento_1" placeholder="Nombre del Medicamento"></div>
-                                                            <div class="col-4"><input type="text" class="form-control" name="forma[]" id="forma_1" placeholder="Forma"></div>
-                                                            <div class="col-8"><input type="text" class="form-control" name="dosis[]" id="dosis_1" placeholder="Dosis"></div>
-                                                            <div class="col-4"><input type="text" class="form-control" name="cantidad[]" id="cantidad_1" placeholder="Cantidad"></div>
-                                                            <div class="col-8"></div>
-                                                            <div class="col-4"><button type="button" class="btn btn-success col-md-12" id="btn_add7"><i class="fa-solid fa-plus"></i> AGREGAR MEDICAMENTO</button></div>
-                                                        </div>
-                                                        <div id="tratamientos"></div>
-                                                        <br>
+                                                        <input type="hidden" class="form-control" id="arrayTratamientos" name="arrayTratamientos" readonly>
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td style="width: 70%"><input type="text" class="form-control" id="medicamento" placeholder="Nombre del Medicamento"></td>
+                                                                <td style="width: 30%"><input type="text" class="form-control" id="forma" placeholder="Forma"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 70%"><input type="text" class="form-control" id="dosis" placeholder="Dosis"></td>
+                                                                <td style="width: 30%"><input type="text" class="form-control" id="cantidad" placeholder="Cantidad"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 70%"></td>
+                                                                <td style="width: 30%"><button type="button" class="btn btn-success btn-block" onclick="agregar_tratamiento()"><i class="bx bx-plus"></i> Agregar</button></td>
+                                                            </tr>
+                                                            <div id="a_tratamientos"></div>
+                                                        </table>
                                                     </div>
 
-                                                    <div class="col-12">
+                                                    <div class="col-12 mt-4">
                                                         <label for="hygienic_measures" class="form-label">Recomendaciones</label>
                                                         <textarea class="form-control" id="hygienic_measures" name="hygienic_measures" rows="3"></textarea>
                                                     </div>
@@ -380,10 +379,47 @@
 @section('js')
 
     <script>
-        var diagnosticos_presuntivos = [];
-        var diagnosticos_definitivos = [];
-        var dp_texto = "";
-        var dd_texto = "";
+        let diagnosticos_presuntivos = [];
+        let datos_dp = JSON.stringify(diagnosticos_presuntivos);
+        document.getElementById('diagnosticosPresuntivos').value = datos_dp;
+
+        let diagnosticos_definitivos = [];
+        let datos_dd = JSON.stringify(diagnosticos_definitivos);
+        document.getElementById('diagnosticosDefinitivos').value = datos_dd;
+
+
+
+        //examenesLaboratorio
+        //laboratorio
+        let examenes_laboratorio = [];
+        let datos_el = JSON.stringify(examenes_laboratorio);
+        document.getElementById('examenesLaboratorio').value = datos_el;
+        //examenesRadiologicos
+        //radiologicos
+        let examenes_radiologicos = [];
+        let datos_er = JSON.stringify(examenes_radiologicos);
+        document.getElementById('examenesRadiologicos').value = datos_er;
+        //procedimientosEspeciales
+        //procedimientos
+        let procedimientos_especiales = [];
+        let datos_pe = JSON.stringify(procedimientos_especiales);
+        document.getElementById('procedimientosEspeciales').value = datos_pe;
+        //interconsultasMedicas
+        //interconsultas
+        let interconsultas_medicas = [];
+        let datos_im = JSON.stringify(interconsultas_medicas);
+        document.getElementById('interconsultasMedicas').value = datos_im;
+
+
+
+
+        let tratamientos = [];
+        let datos_tr = JSON.stringify(tratamientos);
+        document.getElementById('arrayTratamientos').value = datos_tr;
+
+        let dp_texto = "";
+        let dd_texto = "";
+        let tr_texto = "";
 
         //DIAGNOSTICOS PRESUNTIVOS------------------------------------------------------------------------------------------------
         $('#diagnostico_p').autocomplete({
@@ -427,6 +463,8 @@
             });
 
             $('#diagnosticos_presuntivos').html(dp_texto);
+            let datosJSON = JSON.stringify(diagnosticos_presuntivos);
+            document.getElementById('diagnosticosPresuntivos').value = datosJSON;
         }
 
         function eliminar_dp(id){
@@ -443,6 +481,8 @@
                             +diagnostico_presuntivo.id+')"><i class="bx bx-x"></i></button></td></tr>';
             });
             $('#diagnosticos_presuntivos').html(dp_texto);
+            let datosJSON = JSON.stringify(diagnosticos_presuntivos);
+            document.getElementById('diagnosticosPresuntivos').value = datosJSON;
         }
 
         //DIAGNOSTICOS DEFINITIVOS------------------------------------------------------------------------------------------------
@@ -487,6 +527,8 @@
             });
 
             $('#diagnosticos_definitivos').html(dd_texto);
+            let datosJSON = JSON.stringify(diagnosticos_definitivos);
+            document.getElementById('diagnosticosDefinitivos').value = datosJSON;
         }
 
         function eliminar_dd(id){
@@ -503,8 +545,128 @@
                             +diagnostico.id+')"><i class="bx bx-x"></i></button></td></tr>';
             });
             $('#diagnosticos_definitivos').html(dd_texto);
+            let datosJSON = JSON.stringify(diagnosticos_definitivos);
+            document.getElementById('diagnosticosDefinitivos').value = datosJSON;
         }
 
+        //INTERCONSULTAS MEDICAS--------------------------------------------------------------------------------------------------
+        $('#interconsultas').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{{ route('search.autocomplete_interconsultas') }}",
+                    dataType: 'json',
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 3,
+            select: function(event, ui) {
+                agregar_dd(ui.item);
+                $(this).val('');
+                return false;
+            }
+        });
+
+
+        //MEDICAMENTOS------------------------------------------------------------------------------------------------------------
+        function agregar_tratamiento(){
+            let tratamiento = {};
+            tr_texto = "";
+
+            let medicamento = $('#medicamento').val();
+            let forma = $('#forma').val();
+            let dosis = $('#dosis').val();
+            let cantidad = $('#cantidad').val();
+
+            tratamiento = {
+                medicine: medicamento,
+                shape: forma,
+                dose: dosis,
+                quantity: cantidad,
+            }
+
+            tratamientos.push(tratamiento);
+
+            tratamientos.forEach(function(tratamiento) {
+                tr_texto += '<tr>';
+                tr_texto += '<td style="width: 70%"><input type="text" class="form-control" readonly value="'+ tratamiento.medicine +'"></td>';
+                tr_texto += '<td style="width: 30%"><input type="text" class="form-control" readonly value="'+ tratamiento.shape +'"></td>';
+                tr_texto += '</tr>';
+                tr_texto += '<tr>';
+                tr_texto += '<td style="width: 70%"><input type="text" class="form-control" readonly value="'+ tratamiento.dose +'"></td>';
+                tr_texto += '<td style="width: 30%"><input type="text" class="form-control" readonly value="'+ tratamiento.quantity +'"></td>';
+                tr_texto += '</tr>';
+                tr_texto += '<tr>';
+                tr_texto += '<td style="width: 70%"></td>';
+                tr_texto += `<td style="width: 30%"><button type="button" class="btn btn-danger btn-block" onclick="eliminar_tratamiento('${tratamiento.medicine}')"><i class="bx bx-x"></i> Eliminar</button></td>`;
+                tr_texto += '</tr>';
+            });
+
+            $('#a_tratamientos').html(tr_texto);
+            let datosJSON = JSON.stringify(tratamientos);
+            document.getElementById('arrayTratamientos').value = datosJSON;
+            limpiar();
+        }
+
+        function eliminar_tratamiento(name){
+            tr_texto = "";
+            let indiceEliminar = tratamientos.findIndex(objeto => objeto.medicine === name);
+
+            if (indiceEliminar !== -1) {
+                tratamientos.splice(indiceEliminar, 1);
+            }
+
+            tratamientos.forEach(function(tratamiento) {
+                tr_texto += '<tr>';
+                tr_texto += '<td style="width: 70%"><input type="text" class="form-control" readonly value="'+ tratamiento.medicine +'"></td>';
+                tr_texto += '<td style="width: 30%"><input type="text" class="form-control" readonly value="'+ tratamiento.shape +'"></td>';
+                tr_texto += '</tr>';
+                tr_texto += '<tr>';
+                tr_texto += '<td style="width: 70%"><input type="text" class="form-control" readonly value="'+ tratamiento.dose +'"></td>';
+                tr_texto += '<td style="width: 30%"><input type="text" class="form-control" readonly value="'+ tratamiento.quantity +'"></td>';
+                tr_texto += '</tr>';
+                tr_texto += '<tr>';
+                tr_texto += '<td style="width: 70%"></td>';
+                tr_texto += `<td style="width: 30%"><button type="button" class="btn btn-danger btn-block" onclick="eliminar_tratamiento('${tratamiento.medicine}')"><i class="bx bx-x"></i> Eliminar</button></td>`;
+                tr_texto += '</tr>';
+            });
+
+            $('#a_tratamientos').html(tr_texto);
+            let datosJSON = JSON.stringify(tratamientos);
+            document.getElementById('arrayTratamientos').value = datosJSON;
+        }
+
+        function limpiar(){
+            $('#medicamento').val("");
+            $('#forma').val("");
+            $('#dosis').val("");
+            $('#cantidad').val("");
+            $('#medicamento').focus();
+        }
+
+        //CALCULAR IMC------------------------------------------------------------------------------------------------------------
+        let input1 = document.getElementById("weight");
+        let input2 = document.getElementById("size");
+
+        function calcularSuma() {
+            // Obtener los valores de los inputs y asegurarse de que sean números válidos
+            let valor1 = parseFloat(input1.value) || 0;
+            let valor2 = parseFloat(input2.value) || 0;
+
+            // Calcular la suma
+            let imc = valor1 / (valor2 * valor2);
+
+            // Mostrar el resultado
+            $('#imc').val(imc.toFixed(2));
+        }
+
+        // Agregar eventos input a ambos inputs
+        input1.addEventListener("input", calcularSuma);
+        input2.addEventListener("input", calcularSuma);
     </script>
 
 @endsection
