@@ -31,7 +31,8 @@ class SearchController extends Controller
     {
         $data = [];
         $term = $request->get('term');
-        $querys = Specialties::all();
+        $querys = Specialties::where('description', 'like', '%'.$term.'%')
+                    ->get();
 
         foreach($querys as $query){
             $data[] = [

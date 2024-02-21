@@ -212,8 +212,8 @@
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="diagnostico_p"></td>
                                                             </tr>
-                                                            <div id="diagnosticos_presuntivos"></div>
                                                         </table>
+                                                        <table style="width: 100%" id="diagnosticos_presuntivos"></table>
                                                     </div>
                                                 </div>
 
@@ -227,8 +227,8 @@
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="diagnostico_d"></td>
                                                             </tr>
-                                                            <div id="diagnosticos_definitivos"></div>
                                                         </table>
+                                                        <table style="width: 100%" id="diagnosticos_definitivos"></table>
                                                     </div>
                                                 </div>
                                             </div>
@@ -242,8 +242,8 @@
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="laboratorio"></td>
                                                             </tr>
-                                                            <div id="examenes_laboratorio"></div>
                                                         </table>
+                                                        <table style="width: 100%" id="examenes_laboratorio"></table>
                                                     </div>
 
                                                     <div class="col-6 mb-2">
@@ -253,8 +253,8 @@
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="radiologicos"></td>
                                                             </tr>
-                                                            <div id="examenes_radiologicos"></div>
                                                         </table>
+                                                        <table style="width: 100%" id="examenes_radiologicos"></table>
                                                     </div>
 
                                                     <div class="col-6 mb-2">
@@ -264,8 +264,8 @@
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="procedimientos"></td>
                                                             </tr>
-                                                            <div id="procedimientos_especiales"></div>
                                                         </table>
+                                                        <table style="width: 100%" id="procedimientos_especiales"></table>
                                                     </div>
 
                                                     <div class="col-6 mb-2">
@@ -275,8 +275,8 @@
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="interconsultas"></td>
                                                             </tr>
-                                                            <div id="interconsultas_medicas"></div>
                                                         </table>
+                                                        <table style="width: 100%" id="interconsultas_medicas"></table>
                                                     </div>
                                                 </div>
                                             </div>
@@ -298,8 +298,8 @@
                                                                 <td style="width: 70%"></td>
                                                                 <td style="width: 30%"><button type="button" class="btn btn-success btn-block" onclick="agregar_tratamiento()"><i class="bx bx-plus"></i> Agregar</button></td>
                                                             </tr>
-                                                            <div id="a_tratamientos"></div>
                                                         </table>
+                                                        <table style="width: 100%" id="a_tratamientos"></table>
                                                     </div>
 
                                                     <div class="col-12 mt-4">
@@ -419,6 +419,9 @@
 
         let dp_texto = "";
         let dd_texto = "";
+
+        let in_texto = "";
+
         let tr_texto = "";
 
         //DIAGNOSTICOS PRESUNTIVOS------------------------------------------------------------------------------------------------
@@ -570,6 +573,49 @@
                 return false;
             }
         });
+
+        function agregar_in(interconsulta){
+            let interconsulta_medica = {};
+            in_texto = "";
+
+            interconsulta_medica = {
+                id: interconsulta.id,
+                text: interconsulta.label,
+            }
+
+            if(!interconsultas_medicas.find(x=>x.id === interconsulta.id)){
+                interconsultas_medicas.push(interconsulta_medica);
+            }
+
+            interconsultas_medicas.forEach(function(interconsulta) {
+                in_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+interconsulta.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_in('
+                            +interconsulta.id+')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+
+            $('#interconsultas_medicas').html(in_texto);
+            let datosJSON = JSON.stringify(interconsultas_medicas);
+            document.getElementById('interconsultasMedicas').value = datosJSON;
+        }
+
+        function eliminar_in(id){
+            in_texto = "";
+            let indiceEliminar = interconsultas_medicas.findIndex(objeto => objeto.id === id);
+
+            if (indiceEliminar !== -1) {
+                interconsultas_medicas.splice(indiceEliminar, 1);
+            }
+
+            interconsultas_medicas.forEach(function(interconsulta) {
+                in_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+interconsulta.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_in('
+                            +interconsulta.id+')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+
+            $('#interconsultas_medicas').html(in_texto);
+            let datosJSON = JSON.stringify(interconsultas_medicas);
+            document.getElementById('interconsultasMedicas').value = datosJSON;
+        }
 
 
         //MEDICAMENTOS------------------------------------------------------------------------------------------------------------
