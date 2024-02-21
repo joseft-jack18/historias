@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diagnoses;
+use App\Models\Procedures;
 use App\Models\Specialties;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,23 @@ class SearchController extends Controller
             $data[] = [
                 'id' => $query->id,
                 'label' => $query->description,
+            ];
+        }
+
+        return $data;
+    }
+
+    public function autocomplete_radiologicos(Request $request)
+    {
+        $data = [];
+        $term = $request->get('term');
+        $querys = Procedures::where('description', 'like', '%'.$term.'%')
+                    ->get();
+
+        foreach($querys as $query){
+            $data[] = [
+                'id' => $query->id,
+                'label' => $query->type." - ".$query->description,
             ];
         }
 

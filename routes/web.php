@@ -34,3 +34,5 @@ Route::post('/history/store', [MedicalRecordsController::class, 'store'])->name(
 
 Route::get('/search/autocomplete_d', [SearchController::class, 'autocomplete_diagnosticos'])->name('search.autocomplete_diagnosticos');
 Route::get('/search/autocomplete_i', [SearchController::class, 'autocomplete_interconsultas'])->name('search.autocomplete_interconsultas');
+Route::get('/search/autocomplete_r', [SearchController::class, 'autocomplete_radiologicos'])->name('search.autocomplete_radiologicos');
+

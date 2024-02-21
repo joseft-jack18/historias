@@ -394,8 +394,7 @@
         let examenes_laboratorio = [];
         let datos_el = JSON.stringify(examenes_laboratorio);
         document.getElementById('examenesLaboratorio').value = datos_el;
-        //examenesRadiologicos
-        //radiologicos
+
         let examenes_radiologicos = [];
         let datos_er = JSON.stringify(examenes_radiologicos);
         document.getElementById('examenesRadiologicos').value = datos_er;
@@ -404,14 +403,13 @@
         let procedimientos_especiales = [];
         let datos_pe = JSON.stringify(procedimientos_especiales);
         document.getElementById('procedimientosEspeciales').value = datos_pe;
-        //interconsultasMedicas
-        //interconsultas
+
+
+
+
         let interconsultas_medicas = [];
         let datos_im = JSON.stringify(interconsultas_medicas);
         document.getElementById('interconsultasMedicas').value = datos_im;
-
-
-
 
         let tratamientos = [];
         let datos_tr = JSON.stringify(tratamientos);
@@ -419,9 +417,8 @@
 
         let dp_texto = "";
         let dd_texto = "";
-
+        let rx_texto = "";
         let in_texto = "";
-
         let tr_texto = "";
 
         //DIAGNOSTICOS PRESUNTIVOS------------------------------------------------------------------------------------------------
@@ -552,6 +549,71 @@
             document.getElementById('diagnosticosDefinitivos').value = datosJSON;
         }
 
+        //EXAMENES RADIOLOGICOS---------------------------------------------------------------------------------------------------
+        $('#radiologicos').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{{ route('search.autocomplete_radiologicos') }}",
+                    dataType: 'json',
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 3,
+            select: function(event, ui) {
+                agregar_rx(ui.item);
+                $(this).val('');
+                return false;
+            }
+        });
+
+        function agregar_rx(radiologicos){
+            let examen_radiologico = {};
+            rx_texto = "";
+
+            examen_radiologico = {
+                id: radiologicos.id,
+                text: radiologicos.label,
+            }
+
+            if(!examenes_radiologicos.find(x=>x.id === radiologicos.id)){
+                examenes_radiologicos.push(examen_radiologico);
+            }
+
+            examenes_radiologicos.forEach(function(radiologico) {
+                rx_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+radiologico.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_rx('
+                            +radiologico.id+')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+
+            $('#examenes_radiologicos').html(rx_texto);
+            let datosJSON = JSON.stringify(examenes_radiologicos);
+            document.getElementById('examenesRadiologicos').value = datosJSON;
+        }
+
+        function eliminar_rx(id){
+            rx_texto = "";
+            let indiceEliminar = examenes_radiologicos.findIndex(objeto => objeto.id === id);
+
+            if (indiceEliminar !== -1) {
+                examenes_radiologicos.splice(indiceEliminar, 1);
+            }
+
+            examenes_radiologicos.forEach(function(radiologico) {
+                rx_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+radiologico.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_rx('
+                            +radiologico.id+')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+
+            $('#examenes_radiologicos').html(rx_texto);
+            let datosJSON = JSON.stringify(examenes_radiologicos);
+            document.getElementById('examenesRadiologicos').value = datosJSON;
+        }
+
         //INTERCONSULTAS MEDICAS--------------------------------------------------------------------------------------------------
         $('#interconsultas').autocomplete({
             source: function(request, response) {
@@ -568,7 +630,7 @@
             },
             minLength: 3,
             select: function(event, ui) {
-                agregar_dd(ui.item);
+                agregar_in(ui.item);
                 $(this).val('');
                 return false;
             }
