@@ -262,7 +262,10 @@
                                                         <input type="text" class="form-control" id="procedimientosEspeciales" name="procedimientosEspeciales" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
-                                                                <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="procedimientos"></td>
+                                                                <td style="width: 95%"><input type="text" class="form-control" id="procedimientos"></td>
+                                                                <td style="width: 5%">
+                                                                    <button type="button" class="btn btn-success col-md-12" onclick="agregar_pe()"><i class="bx bx-plus"></i></button>
+                                                                </td>
                                                             </tr>
                                                         </table>
                                                         <table style="width: 100%" id="procedimientos_especiales"></table>
@@ -387,25 +390,17 @@
         let datos_dd = JSON.stringify(diagnosticos_definitivos);
         document.getElementById('diagnosticosDefinitivos').value = datos_dd;
 
-
-
-        //examenesLaboratorio
-        //laboratorio
         let examenes_laboratorio = [];
         let datos_el = JSON.stringify(examenes_laboratorio);
         document.getElementById('examenesLaboratorio').value = datos_el;
 
-        let examenes_radiologicos = [];
-        let datos_er = JSON.stringify(examenes_radiologicos);
-        document.getElementById('examenesRadiologicos').value = datos_er;
-        //procedimientosEspeciales
-        //procedimientos
         let procedimientos_especiales = [];
         let datos_pe = JSON.stringify(procedimientos_especiales);
         document.getElementById('procedimientosEspeciales').value = datos_pe;
 
-
-
+        let examenes_radiologicos = [];
+        let datos_er = JSON.stringify(examenes_radiologicos);
+        document.getElementById('examenesRadiologicos').value = datos_er;
 
         let interconsultas_medicas = [];
         let datos_im = JSON.stringify(interconsultas_medicas);
@@ -417,7 +412,9 @@
 
         let dp_texto = "";
         let dd_texto = "";
+        let lb_texto = "";
         let rx_texto = "";
+        let pe_texto = "";
         let in_texto = "";
         let tr_texto = "";
 
@@ -549,6 +546,71 @@
             document.getElementById('diagnosticosDefinitivos').value = datosJSON;
         }
 
+        //EXAMENES DE LABORATORIO-------------------------------------------------------------------------------------------------
+        $('#laboratorio').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{{ route('search.autocomplete_laboratorios') }}",
+                    dataType: 'json',
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 3,
+            select: function(event, ui) {
+                agregar_lb(ui.item);
+                $(this).val('');
+                return false;
+            }
+        });
+
+        function agregar_lb(laboratorios){
+            let examen_laboratorio = {};
+            lb_texto = "";
+
+            examen_laboratorio = {
+                id: laboratorios.id,
+                text: laboratorios.label,
+            }
+
+            if(!examenes_laboratorio.find(x=>x.id === laboratorios.id)){
+                examenes_laboratorio.push(examen_laboratorio);
+            }
+
+            examenes_laboratorio.forEach(function(laboratorio) {
+                lb_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+laboratorio.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_lb('
+                            +laboratorio.id+')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+
+            $('#examenes_laboratorio').html(lb_texto);
+            let datosJSON = JSON.stringify(examenes_laboratorio);
+            document.getElementById('examenesLaboratorio').value = datosJSON;
+        }
+
+        function eliminar_lb(id){
+            lb_texto = "";
+            let indiceEliminar = examenes_laboratorio.findIndex(objeto => objeto.id === id);
+
+            if (indiceEliminar !== -1) {
+                examenes_laboratorio.splice(indiceEliminar, 1);
+            }
+
+            examenes_laboratorio.forEach(function(laboratorio) {
+                lb_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+laboratorio.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_lb('
+                            +laboratorio.id+')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+
+            $('#examenes_laboratorio').html(lb_texto);
+            let datosJSON = JSON.stringify(examenes_laboratorio);
+            document.getElementById('examenesLaboratorio').value = datosJSON;
+        }
+
         //EXAMENES RADIOLOGICOS---------------------------------------------------------------------------------------------------
         $('#radiologicos').autocomplete({
             source: function(request, response) {
@@ -612,6 +674,49 @@
             $('#examenes_radiologicos').html(rx_texto);
             let datosJSON = JSON.stringify(examenes_radiologicos);
             document.getElementById('examenesRadiologicos').value = datosJSON;
+        }
+
+        //PROCEDIMIENTOS ESPECIALES-----------------------------------------------------------------------------------------------
+        function agregar_pe(){
+            let procedimiento_especial = {};
+            pe_texto = "";
+
+            let procedimiento = $('#procedimientos').val();
+
+            procedimiento_especial = {
+                text: procedimiento,
+            }
+
+            if(!procedimientos_especiales.find(x=>x.id === procedimiento.id)){
+                procedimientos_especiales.push(procedimiento_especial);
+            }
+
+            procedimientos_especiales.forEach(function(procedimiento) {
+                pe_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+procedimiento.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_pe('${procedimiento.text}')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+
+            $('#procedimientos_especiales').html(pe_texto);
+            let datosJSON = JSON.stringify(procedimientos_especiales);
+            document.getElementById('procedimientosEspeciales').value = datosJSON;
+        }
+
+        function eliminar_pe(procedimiento){
+            pe_texto = "";
+            let indiceEliminar = procedimientos_especiales.findIndex(objeto => objeto.text === procedimiento);
+
+            if (indiceEliminar !== -1) {
+                procedimientos_especiales.splice(indiceEliminar, 1);
+            }
+
+            procedimientos_especiales.forEach(function(procedimiento) {
+                pe_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+procedimiento.text+
+                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_pe('${procedimiento.text}')"><i class="bx bx-x"></i></button></td></tr>';
+            });
+
+            $('#procedimientos_especiales').html(pe_texto);
+            let datosJSON = JSON.stringify(procedimientos_especiales);
+            document.getElementById('procedimientosEspeciales').value = datosJSON;
         }
 
         //INTERCONSULTAS MEDICAS--------------------------------------------------------------------------------------------------
@@ -681,6 +786,22 @@
 
 
         //MEDICAMENTOS------------------------------------------------------------------------------------------------------------
+        $('#medicamento').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{{ route('search.autocomplete_medicamentos') }}",
+                    dataType: 'json',
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 3,
+        });
+
         function agregar_tratamiento(){
             let tratamiento = {};
             tr_texto = "";

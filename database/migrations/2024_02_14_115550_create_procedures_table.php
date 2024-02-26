@@ -223,6 +223,14 @@ return new class extends Migration
             ['id' => 197, 'specialty_id' => 3, 'type' => 'RX EXTREMIDADES', 'description' => 'TOBILLO F-P'],
             ['id' => 198, 'specialty_id' => 3, 'type' => 'RX OTROS', 'description' => 'CUERPO EXTRAÑO'],
             ['id' => 199, 'specialty_id' => 3, 'type' => 'RX OTROS', 'description' => 'FISTULOGRAFÍA'],
+
+            ['id' => 200, 'specialty_id' => 2, 'type' => 'BIOQUIMICA', 'description' => 'ACIDO URICO'],
+            ['id' => 201, 'specialty_id' => 2, 'type' => 'BIOQUIMICA', 'description' => 'AMILASA'],
+            ['id' => 202, 'specialty_id' => 2, 'type' => 'BIOQUIMICA', 'description' => 'BILIRRUBINAS TOTALES Y FRACCIONADAS'],
+            ['id' => 203, 'specialty_id' => 2, 'type' => 'BIOQUIMICA', 'description' => 'BUN UREICO'],
+            ['id' => 204, 'specialty_id' => 2, 'type' => 'BIOQUIMICA', 'description' => 'CALCIO IONICO'],
+            ['id' => 205, 'specialty_id' => 2, 'type' => 'BIOQUIMICA', 'description' => 'CALCIO SERICO'],
+
         ]);
     }
 
