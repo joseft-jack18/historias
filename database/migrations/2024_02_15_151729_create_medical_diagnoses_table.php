@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->unsignedInteger('history_id');
             $table->unsignedInteger('diagnosis_id');
+            $table->string('type');
 
             $table->timestamps();
 
