@@ -687,18 +687,25 @@
                 text: procedimiento,
             }
 
-            if(!procedimientos_especiales.find(x=>x.id === procedimiento.id)){
+            if(!procedimientos_especiales.find(x=>x.text === procedimiento)){
                 procedimientos_especiales.push(procedimiento_especial);
             }
 
             procedimientos_especiales.forEach(function(procedimiento) {
-                pe_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+procedimiento.text+
-                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_pe('${procedimiento.text}')"><i class="bx bx-x"></i></button></td></tr>';
+                pe_texto += '<tr>';
+                pe_texto += '<td style="width: 95%">';
+                pe_texto += '<input type="text" class="form-control" value="'+procedimiento.text+'" readonly>';
+                pe_texto += '</td>';
+                pe_texto += '<td style="width: 5%">';
+                pe_texto += `<button type="button" class="btn btn-danger col-md-12" onclick="eliminar_pe('${procedimiento.text}')"><i class="bx bx-x"></i></button></td></tr>`;
             });
 
             $('#procedimientos_especiales').html(pe_texto);
             let datosJSON = JSON.stringify(procedimientos_especiales);
             document.getElementById('procedimientosEspeciales').value = datosJSON;
+
+            $('#procedimientos').val("");
+            $('#procedimientos').focus();
         }
 
         function eliminar_pe(procedimiento){
@@ -710,8 +717,12 @@
             }
 
             procedimientos_especiales.forEach(function(procedimiento) {
-                pe_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+procedimiento.text+
-                            '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_pe('${procedimiento.text}')"><i class="bx bx-x"></i></button></td></tr>';
+                pe_texto += '<tr>';
+                pe_texto += '<td style="width: 95%">';
+                pe_texto += '<input type="text" class="form-control" value="'+procedimiento.text+'" readonly>';
+                pe_texto += '</td>';
+                pe_texto += '<td style="width: 5%">';
+                pe_texto += `<button type="button" class="btn btn-danger col-md-12" onclick="eliminar_pe('${procedimiento.text}')"><i class="bx bx-x"></i></button></td></tr>`;
             });
 
             $('#procedimientos_especiales').html(pe_texto);
