@@ -237,7 +237,7 @@
                                                 <div class="row g-3">
                                                     <div class="col-6 mb-2">
                                                         <h5>Exámenes de Laboratorio</h5>
-                                                        <input type="text" class="form-control" id="examenesLaboratorio" name="examenesLaboratorio" readonly>
+                                                        <input type="hidden" class="form-control" id="examenesLaboratorio" name="examenesLaboratorio" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="laboratorio"></td>
@@ -248,7 +248,7 @@
 
                                                     <div class="col-6 mb-2">
                                                         <h5>Exámenes Radiológicos</h5>
-                                                        <input type="text" class="form-control" id="examenesRadiologicos" name="examenesRadiologicos" readonly>
+                                                        <input type="hidden" class="form-control" id="examenesRadiologicos" name="examenesRadiologicos" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="radiologicos"></td>
@@ -259,7 +259,7 @@
 
                                                     <div class="col-6 mb-2">
                                                         <h5>Procedimientos Especiales</h5>
-                                                        <input type="text" class="form-control" id="procedimientosEspeciales" name="procedimientosEspeciales" readonly>
+                                                        <input type="hidden" class="form-control" id="procedimientosEspeciales" name="procedimientosEspeciales" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 95%"><input type="text" class="form-control" id="procedimientos"></td>
@@ -273,7 +273,7 @@
 
                                                     <div class="col-6 mb-2">
                                                         <h5>Interconsultas</h5>
-                                                        <input type="text" class="form-control" id="interconsultasMedicas" name="interconsultasMedicas" readonly>
+                                                        <input type="hidden" class="form-control" id="interconsultasMedicas" name="interconsultasMedicas" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="interconsultas"></td>

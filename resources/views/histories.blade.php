@@ -26,15 +26,22 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th class="text-center">Nro. Historia</th>
-                                        <th class="text-center">Paciente</th>
-                                        <th class="text-center">Edad</th>
-                                        <th class="text-center">Teléfono</th>
-                                        <th class="text-center">Editar</th>
+                                        <th class="text-center">F. Consulta</th>
+                                        <th class="text-center">Motivo</th>
+                                        <th class="text-center">Observaciones</th>
                                         <th class="text-center">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($histories as $history)
+                                    <tr>
+                                        <td class="text-center">{{ $history->id }}</td>
+                                        <td class="text-center">{{ $history->created_at }}</td>
+                                        <td>{{ $history->reason_consultation }}</td>
+                                        <td>{{ $history->observations }}</td>
+                                        <td class="text-center"></td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -57,10 +64,4 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-@endsection
-
-@section('js')
-    <script>
-        toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
-    </script>
 @endsection
