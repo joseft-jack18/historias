@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->unsignedInteger('history_id');
             $table->unsignedInteger('procedure_id');
-            $table->integer('type');
+            $table->string('type');
 
             $table->timestamps();
 

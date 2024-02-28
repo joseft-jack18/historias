@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MedicalDiagnoses;
 use Carbon\Carbon;
 use App\Models\Persons;
 use App\Models\Procedures;
 use Illuminate\Http\Request;
 use App\Models\PersonHistory;
 use App\Models\MedicalRecords;
+use App\Models\MedicalDiagnoses;
+use App\Models\MedicalWorkPlans;
+use App\Models\MedicalProcedures;
 use App\Models\MedicalTreatments;
+use App\Models\MedicalInterconsultation;
 
 class MedicalRecordsController extends Controller
 {
@@ -46,7 +49,7 @@ class MedicalRecordsController extends Controller
         $personHistory->family_history = $request->post('family_history');
         $personHistory->updated_at = Carbon::now();
         $personHistory->save();
-        
+
         //guardamos los datos de la historia del paciente------------------------------------
         $historia = new MedicalRecords();
         $historia->person_id = $request->post('person_id');
@@ -75,7 +78,7 @@ class MedicalRecordsController extends Controller
         $historia->updated_at = Carbon::now();
         $historia->save();
 
-        //guardamos los antecedentes del paciente--------------------------------------------        
+        //guardamos los antecedentes del paciente--------------------------------------------
         $personHistory = PersonHistory::find($request->post('person_id'));
         $personHistory->personal_history = $request->post('personal_history');
         $personHistory->allergies_history = $request->post('allergies_history');
@@ -83,7 +86,7 @@ class MedicalRecordsController extends Controller
         $personHistory->updated_at = Carbon::now();
         $personHistory->save();
 
-        //guardamos los diagnosticos del paciente--------------------------------------------        
+        //guardamos los diagnosticos del paciente--------------------------------------------
         if(count($presuntivos) > 0){
             foreach($presuntivos as $presuntivo){
                 $pre = new MedicalDiagnoses();
@@ -108,6 +111,55 @@ class MedicalRecordsController extends Controller
             }
         }
 
+        //guardamos los laboratorios y las imagenes del paciente-----------------------------
+        if(count($laboratorios) > 0){
+            foreach($laboratorios as $laboratorio){
+                $lab = new MedicalWorkPlans();
+                $lab->history_id = $historia->id;
+                $lab->procedure_id = $laboratorio->id;
+                $lab->type = 'L';
+                $lab->created_at = Carbon::now();
+                $lab->updated_at = Carbon::now();
+                $lab->save();
+            }
+        }
+
+        if(count($radiologicos) > 0){
+            foreach($radiologicos as $radiologico){
+                $img = new MedicalWorkPlans();
+                $img->history_id = $historia->id;
+                $img->procedure_id = $radiologico->id;
+                $img->type = 'I';
+                $img->created_at = Carbon::now();
+                $img->updated_at = Carbon::now();
+                $img->save();
+            }
+        }
+
+        //guardamos los procedimientos del paciente------------------------------------------
+        if(count($procedimientos) > 0){
+            foreach($procedimientos as $procedimiento){
+                $pro = new MedicalProcedures();
+                $pro->history_id = $historia->id;
+                $pro->description = $procedimiento->text;
+                $pro->created_at = Carbon::now();
+                $pro->updated_at = Carbon::now();
+                $pro->save();
+            }
+        }
+
+        //guardamos las interconsultas del paciente------------------------------------------
+        if(count($interconsultas) > 0){
+            foreach($interconsultas as $interconsulta){
+                $int = new MedicalInterconsultation();
+                $int->history_id = $historia->id;
+                $int->specialty_id = $interconsulta->id;
+                $int->created_at = Carbon::now();
+                $int->updated_at = Carbon::now();
+                $int->save();
+            }
+        }
+
         //guardamos los tratamientos del paciente--------------------------------------------
         if(count($tratamientos) > 0){
             foreach($tratamientos as $tratamiento){
@@ -124,7 +176,7 @@ class MedicalRecordsController extends Controller
             }
         }
 
-        dd($presuntivos);
+        return redirect()->route('history.index', $request->post('person_id'))->with('success','Historia creada correctamente');
     }
 
     public function show(MedicalRecords $medicalRecords)
