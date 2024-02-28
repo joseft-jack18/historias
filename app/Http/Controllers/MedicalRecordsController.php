@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Mpdf\Mpdf;
 use Carbon\Carbon;
 use App\Models\Persons;
 use App\Models\Procedures;
@@ -177,6 +178,19 @@ class MedicalRecordsController extends Controller
         }
 
         return redirect()->route('history.index', $request->post('person_id'))->with('success','Historia creada correctamente');
+    }
+
+    public function pdf_history($id)
+    {
+        $mpdf = new Mpdf([
+                    'mode' => 'utf-8',
+                    'format' => [210, 297],
+                ]);
+
+        $mpdf->WriteHTML('<h1>¡Hola, este es un PDF generado con mPDF en Laravel!</h1>');
+        $mpdf->WriteHTML('<h3>SDFGSDFG</h3>');
+
+        return $mpdf->Output('jose.pdf', 'I');
     }
 
     public function show(MedicalRecords $medicalRecords)

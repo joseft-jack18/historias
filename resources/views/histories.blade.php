@@ -10,6 +10,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>Listado de Historias Clínicas</h1>
+                    <input type="hidden" name="mensaje" id="mensaje" value="{{ Session::get('success') }}">
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -39,7 +40,14 @@
                                         <td class="text-center">{{ $history->created_at }}</td>
                                         <td>{{ $history->reason_consultation }}</td>
                                         <td>{{ $history->observations }}</td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center">
+                                            <a href="{{ route('history.pdf', $history->id) }}" target="_blank" class="btn">
+                                                <i class="bx bxs-file-pdf bx-sm" style="color: #D11111"></i>
+                                            </a>
+                                            <a href="#" class="btn">
+                                                <i class="bx bx-archive-in bx-sm" style="color: #158A12"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -64,4 +72,15 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+@endsection
+
+@section('js')
+
+    <script>
+        let mensaje = $('#mensaje').val();
+        if(mensaje != ''){
+            toastr.success(mensaje)
+        }
+    </script>
+
 @endsection
