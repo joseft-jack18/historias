@@ -79,7 +79,7 @@
                                                     </div>
 
                                                     <div class="col-md-12 mb-2">
-                                                        <label for="main_symptoms" class="form-label">Signos y Síntomas principales</label>
+                                                        <label for="main_symptoms" class="form-label">Relato Cronológico</label>
                                                         <textarea class="form-control" id="main_symptoms" name="main_symptoms" rows="3"></textarea>
                                                     </div>
 

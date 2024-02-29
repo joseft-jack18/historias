@@ -185,10 +185,63 @@ class MedicalRecordsController extends Controller
         $mpdf = new Mpdf([
                     'mode' => 'utf-8',
                     'format' => [210, 297],
+                    'default_font_size' => 9,
+                    'default_font' => 'sans-serif'
                 ]);
 
-        $mpdf->WriteHTML('<h1>¡Hola, este es un PDF generado con mPDF en Laravel!</h1>');
-        $mpdf->WriteHTML('<h3>SDFGSDFG</h3>');
+        //ESTILOS CSS-------------------------------------------------------------------------------
+        $mpdf->WriteHTML('
+            <style>
+                .titulo {
+                    text-align: center;
+                    background: #032691;
+                    color: #fff;
+                    padding: 4px;
+                }
+                .subtitulo {
+                    text-align: center;
+                    background: #DEDEDE;
+                    color: #032691;
+                    padding: 4px;
+                }
+                .subtitulo2 {
+                    background: #DEDEDE;
+                    color: #032691;
+                    font-weight: bold;
+                    padding: 3px 0px 3px 5px;
+                }
+            </style>
+        ');
+
+
+        //CUERPO HTML-------------------------------------------------------------------------------
+        $mpdf->WriteHTML('<h3 class="titulo">HISTORIA CLINICA - CONSULTA EXTERNA</h3>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">DATOS DEL PACIENTE</h3>');
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:50%" class="subtitulo2">PACIENTE</td>');
+        $mpdf->WriteHTML('<td style="width:10%"></td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">N° HISTORIA</td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">EDAD</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:50%">LANCHIPA ROSPIGLIOSI JORGE ALFONSO </td>');
+        $mpdf->WriteHTML('<td style="width:10%"></td>');
+        $mpdf->WriteHTML('<td style="width:20%">00419830</td>');
+        $mpdf->WriteHTML('<td style="width:20%">59 AÑOS</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+        $mpdf->WriteHTML('');
+        $mpdf->WriteHTML('');
+        $mpdf->WriteHTML('');
+        $mpdf->WriteHTML('');
+        $mpdf->WriteHTML('');
+        $mpdf->WriteHTML('');
+        $mpdf->WriteHTML('');
+        $mpdf->WriteHTML('');
+        $mpdf->WriteHTML('');
+        $mpdf->WriteHTML('');
+        $mpdf->WriteHTML('');
 
         return $mpdf->Output('jose.pdf', 'I');
     }
