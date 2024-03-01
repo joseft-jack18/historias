@@ -244,19 +244,135 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
 
-        $mpdf->WriteHTML('<br><br>');
-
+        $mpdf->WriteHTML('<br>');
         $mpdf->WriteHTML('<h3 class="subtitulo">ENFERMEDAD ACTUAL</h3>');
-        $mpdf->WriteHTML('');
-        $mpdf->WriteHTML('');
-        $mpdf->WriteHTML('');
-        $mpdf->WriteHTML('');
-        $mpdf->WriteHTML('');
-        $mpdf->WriteHTML('');
-        $mpdf->WriteHTML('');
-        $mpdf->WriteHTML('');
-        $mpdf->WriteHTML('');
-        $mpdf->WriteHTML('');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:30%" class="subtitulo2">TIEMPO</td>');
+        $mpdf->WriteHTML('<td style="width:70%" class="subtitulo2">MOTIVO DE CONSULTA</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:30%">--</td>');
+        $mpdf->WriteHTML('<td style="width:70%">DUSFONIA</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">RELATO CRONOLOGICO</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">HACE 3 DIAS CON DISFOIA , ARDOPR DE GARGANRA Y TOS ESPORADICA, NIEGA FIEBRE</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">R. URINARIO</td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">R. EVACUATORIO</td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">SED</td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">APETITO</td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">SUEÑO</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:20%">--</td>');
+        $mpdf->WriteHTML('<td style="width:20%">--</td>');
+        $mpdf->WriteHTML('<td style="width:20%">--</td>');
+        $mpdf->WriteHTML('<td style="width:20%">--</td>');
+        $mpdf->WriteHTML('<td style="width:20%">--</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
+        $mpdf->WriteHTML('<br>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">ANTECEDENTES</h3>');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">ANTECEDENTES PERSONALES</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">-QX: RINOPLASTIA - NO ENF CR. TRABAJ EN MINA ( 21 AÑOS )</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">ANTECEDENTES DE ALERGIAS</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">-QX: RINOPLASTIA - NO ENF CR. TRABAJ EN MINA ( 21 AÑOS )</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">ANTECEDENTES FAMILIARES</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">-QX: RINOPLASTIA - NO ENF CR. TRABAJ EN MINA ( 21 AÑOS )</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
+        $mpdf->WriteHTML('<br>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">DIAGNÓSTICOS</h3>');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%; text-align: center;" class="subtitulo2">DIAGNÓSTICOS PRESUNTIVOS</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:15%" class="subtitulo2">CIE10</td>');
+        $mpdf->WriteHTML('<td style="width:85%" class="subtitulo2">DIAGNÓSTICO</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:15%">CIE10</td>');
+        $mpdf->WriteHTML('<td style="width:85%">DIAGNÓSTICO</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%; text-align: center;" class="subtitulo2">DIAGNÓSTICOS DEFINITIVOS</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:15%" class="subtitulo2">CIE10</td>');
+        $mpdf->WriteHTML('<td style="width:85%" class="subtitulo2">DIAGNÓSTICO</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:15%">CIE10</td>');
+        $mpdf->WriteHTML('<td style="width:85%">DIAGNÓSTICO</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
+        $mpdf->WriteHTML('<br>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">PLAN DE TRABAJO</h3>');
+
+
+
+        $mpdf->WriteHTML('<br>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">TRATAMIENTO</h3>');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">MEDIDAS HIGIÉNICAS DIETÉTICAS</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">--</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
+        $mpdf->WriteHTML('<br>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">OBSERVACIONES</h3>');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:80%" class="subtitulo2">OBSERVACIÓN</td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">PRÓXIMA CITA</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:80%">--</td>');
+        $mpdf->WriteHTML('<td style="width:20%">--</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
 
         return $mpdf->Output('jose.pdf', 'I');
     }

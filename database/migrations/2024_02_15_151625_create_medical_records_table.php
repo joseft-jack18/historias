@@ -20,8 +20,8 @@ return new class extends Migration
 
             $table->string('quantity')->nullable();
             $table->string('time')->nullable();
-            $table->string('reason_consultation');
-            $table->string('main_symptoms');
+            $table->string('reason_consultation')->nullable();
+            $table->string('main_symptoms')->nullable();
             $table->integer('thirst')->nullable();
             $table->integer('appetite')->nullable();
             $table->integer('dream')->nullable();
