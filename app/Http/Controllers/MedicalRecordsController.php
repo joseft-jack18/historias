@@ -185,7 +185,7 @@ class MedicalRecordsController extends Controller
         $mpdf = new Mpdf([
                     'mode' => 'utf-8',
                     'format' => [210, 297],
-                    'default_font_size' => 9,
+                    'default_font_size' => 10,
                     'default_font' => 'sans-serif'
                 ]);
 
@@ -230,8 +230,23 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:20%">00419830</td>');
         $mpdf->WriteHTML('<td style="width:20%">59 AÑOS</td>');
         $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:50%" class="subtitulo2">MEDICO</td>');
+        $mpdf->WriteHTML('<td style="width:10%"></td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">CMP</td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">ATENCION</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:50%">PERCY MALDONADO MOGROVEJO</td>');
+        $mpdf->WriteHTML('<td style="width:10%"></td>');
+        $mpdf->WriteHTML('<td style="width:20%">025131</td>');
+        $mpdf->WriteHTML('<td style="width:20%">28-02-2024 08:45</td>');
+        $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
-        $mpdf->WriteHTML('');
+
+        $mpdf->WriteHTML('<br><br>');
+
+        $mpdf->WriteHTML('<h3 class="subtitulo">ENFERMEDAD ACTUAL</h3>');
         $mpdf->WriteHTML('');
         $mpdf->WriteHTML('');
         $mpdf->WriteHTML('');
