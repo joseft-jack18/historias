@@ -14,6 +14,7 @@ use App\Models\MedicalWorkPlans;
 use App\Models\MedicalProcedures;
 use App\Models\MedicalTreatments;
 use App\Models\MedicalInterconsultation;
+use Illuminate\Support\Facades\DB;
 
 class MedicalRecordsController extends Controller
 {
@@ -182,9 +183,79 @@ class MedicalRecordsController extends Controller
 
     public function pdf_history($id)
     {
+        $history = MedicalRecords::find($id);
+        $personHistory = PersonHistory::where('person_id', '=', $history->person_id)->first();
+        $diagnoses_p = DB::table('medical_diagnoses')
+                        ->join('diagnoses', 'diagnoses.id', '=', 'medical_diagnoses.diagnosis_id')
+                        ->select('diagnoses.internal_id', 'diagnoses.description')
+                        ->where('medical_diagnoses.history_id', '=', $id)
+                        ->where('medical_diagnoses.type', '=', 'P')
+                        ->get();
+        $diagnoses_d = DB::table('medical_diagnoses')
+                        ->join('diagnoses', 'diagnoses.id', '=', 'medical_diagnoses.diagnosis_id')
+                        ->select('diagnoses.internal_id', 'diagnoses.description', 'medical_diagnoses.type')
+                        ->where('medical_diagnoses.history_id', '=', $id)
+                        ->where('medical_diagnoses.type', '=', 'D')
+                        ->get();
+        $laboratorios = DB::table('medical_work_plans')
+                            ->join('procedures', 'procedures.id', '=', 'medical_work_plans.procedure_id')
+                            ->select('procedures.type', 'procedures.description')
+                            ->where('medical_work_plans.history_id', '=', $id)
+                            ->where('medical_work_plans.type', '=', 'L')
+                            ->get();
+        $imagenes = DB::table('medical_work_plans')
+                        ->join('procedures', 'procedures.id', '=', 'medical_work_plans.procedure_id')
+                        ->select('procedures.type', 'procedures.description')
+                        ->where('medical_work_plans.history_id', '=', $id)
+                        ->where('medical_work_plans.type', '=', 'I')
+                        ->get();
+        $procedimientos = MedicalProcedures::where('history_id', '=', $id)->get();
+        $interconsultas = DB::table('medical_interconsultation')
+                            ->join('specialties', 'specialties.id', '=', 'medical_interconsultation.specialty_id')
+                            ->select('specialties.description')
+                            ->where('medical_interconsultation.history_id', '=', $id)
+                            ->get();
+        $treatments = MedicalTreatments::where('history_id', '=', $id)->get();
+        $person = Persons::find($history->person_id);
+        $person->age = Carbon::parse($person->birthdate)->age;
+
+        if($history->time == 0){ $history->tiempo = '--'; }
+        else if($history->time == 1) { $history->tiempo = 'Horas'; }
+        else if($history->time == 2) { $history->tiempo = 'Días'; }
+        else if($history->time == 3) { $history->tiempo = 'Meses'; }
+        else if($history->time == 4) { $history->tiempo = 'Años'; }
+
+        if($history->thirst == 0){ $history->sed = '--'; }
+        else if($history->thirst == 1) { $history->sed = 'Disminuido'; }
+        else if($history->thirst == 2) { $history->sed = 'Normal'; }
+        else if($history->thirst == 3) { $history->sed = 'Aumentado'; }
+
+        if($history->appetite == 0){ $history->apetito = '--'; }
+        else if($history->appetite == 1) { $history->apetito = 'Disminuido'; }
+        else if($history->appetite == 2) { $history->apetito = 'Normal'; }
+        else if($history->appetite == 3) { $history->apetito = 'Aumentado'; }
+
+        if($history->dream == 0){ $history->sueño = '--'; }
+        else if($history->dream == 1) { $history->sueño = 'Disminuido'; }
+        else if($history->dream == 2) { $history->sueño = 'Normal'; }
+        else if($history->dream == 3) { $history->sueño = 'Aumentado'; }
+
+        if($history->urinary_rhythm == 0){ $history->urinario = '--'; }
+        else if($history->urinary_rhythm == 1) { $history->urinario = 'Disminuido'; }
+        else if($history->urinary_rhythm == 2) { $history->urinario = 'Normal'; }
+        else if($history->urinary_rhythm == 3) { $history->urinario = 'Aumentado'; }
+
+        if($history->evacuation_rhythm == 0){ $history->evacuatorio = '--'; }
+        else if($history->evacuation_rhythm == 1) { $history->evacuatorio = 'Disminuido'; }
+        else if($history->evacuation_rhythm == 2) { $history->evacuatorio = 'Normal'; }
+        else if($history->evacuation_rhythm == 3) { $history->evacuatorio = 'Aumentado'; }
+
+        $diagnoses = count($diagnoses_p) + count($diagnoses_d);
+        $plans = count($laboratorios) + count($imagenes) + count($procedimientos) + count($interconsultas);
+
         $mpdf = new Mpdf([
                     'mode' => 'utf-8',
-                    'format' => [210, 297],
+                    'format' => 'A4',
                     'default_font_size' => 10,
                     'default_font' => 'sans-serif'
                 ]);
@@ -213,7 +284,6 @@ class MedicalRecordsController extends Controller
             </style>
         ');
 
-
         //CUERPO HTML-------------------------------------------------------------------------------
         $mpdf->WriteHTML('<h3 class="titulo">HISTORIA CLINICA - CONSULTA EXTERNA</h3>');
         $mpdf->WriteHTML('<h3 class="subtitulo">DATOS DEL PACIENTE</h3>');
@@ -225,10 +295,10 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">EDAD</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:50%">LANCHIPA ROSPIGLIOSI JORGE ALFONSO </td>');
+        $mpdf->WriteHTML('<td style="width:50%">'. $person->name .'</td>');
         $mpdf->WriteHTML('<td style="width:10%"></td>');
-        $mpdf->WriteHTML('<td style="width:20%">00419830</td>');
-        $mpdf->WriteHTML('<td style="width:20%">59 AÑOS</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $person->number .'</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $person->age .' AÑOS</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
         $mpdf->WriteHTML('<td style="width:50%" class="subtitulo2">MEDICO</td>');
@@ -240,7 +310,7 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:50%">PERCY MALDONADO MOGROVEJO</td>');
         $mpdf->WriteHTML('<td style="width:10%"></td>');
         $mpdf->WriteHTML('<td style="width:20%">025131</td>');
-        $mpdf->WriteHTML('<td style="width:20%">28-02-2024 08:45</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $history->updated_at .'</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
 
@@ -253,8 +323,8 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:70%" class="subtitulo2">MOTIVO DE CONSULTA</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:30%">--</td>');
-        $mpdf->WriteHTML('<td style="width:70%">DUSFONIA</td>');
+        $mpdf->WriteHTML('<td style="width:30%">'. ($history->quantity == null ? '--' : ($history->quantity.' '.$history->tiempo)) .'</td>');
+        $mpdf->WriteHTML('<td style="width:70%">'. ($history->reason_consultation == null ? '--' : $history->reason_consultation) .'</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
 
@@ -263,7 +333,7 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">RELATO CRONOLOGICO</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:100%">HACE 3 DIAS CON DISFOIA , ARDOPR DE GARGANRA Y TOS ESPORADICA, NIEGA FIEBRE</td>');
+        $mpdf->WriteHTML('<td style="width:100%">'. ($history->main_symptoms == null ? '--' : $history->main_symptoms) .'</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
 
@@ -276,11 +346,11 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">SUEÑO</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:20%">--</td>');
-        $mpdf->WriteHTML('<td style="width:20%">--</td>');
-        $mpdf->WriteHTML('<td style="width:20%">--</td>');
-        $mpdf->WriteHTML('<td style="width:20%">--</td>');
-        $mpdf->WriteHTML('<td style="width:20%">--</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $history->urinario .'</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $history->evacuatorio .'</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $history->sed .'</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $history->apetito .'</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $history->sueño .'</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
 
@@ -292,25 +362,72 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">ANTECEDENTES PERSONALES</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:100%">-QX: RINOPLASTIA - NO ENF CR. TRABAJ EN MINA ( 21 AÑOS )</td>');
+        $mpdf->WriteHTML('<td style="width:100%">'. ($personHistory->personal_history == '' ? '--' : $personHistory->personal_history) .'</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
         $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">ANTECEDENTES DE ALERGIAS</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:100%">-QX: RINOPLASTIA - NO ENF CR. TRABAJ EN MINA ( 21 AÑOS )</td>');
+        $mpdf->WriteHTML('<td style="width:100%">'. ($personHistory->allergies_history == '' ? '--' : $personHistory->allergies_history) .'</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
         $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">ANTECEDENTES FAMILIARES</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:100%">-QX: RINOPLASTIA - NO ENF CR. TRABAJ EN MINA ( 21 AÑOS )</td>');
+        $mpdf->WriteHTML('<td style="width:100%">'. ($personHistory->family_history == '' ? '--' : $personHistory->family_history) .'</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
 
         $mpdf->WriteHTML('<br>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">EXAMEN FÍSICO</h3>');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:33%" class="subtitulo2">FRECUENCIA RESPIRATORIA</td>');
+        $mpdf->WriteHTML('<td style="width:33%" class="subtitulo2">FRECUENCIA CARDÍACA</td>');
+        $mpdf->WriteHTML('<td style="width:34%" class="subtitulo2">PRESIÓN ARTERIAL</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:33%">'. ($history->heart_rate == null ? '--' : ($history->heart_rate.' x min')) .'</td>');
+        $mpdf->WriteHTML('<td style="width:33%">'. ($history->breathing_frequency == null ? '--' : ($history->breathing_frequency.' x min')) .'</td>');
+        $mpdf->WriteHTML('<td style="width:34%">'. ($history->blood_pressure == null ? '--' : ($history->blood_pressure.' mmHg')) .'</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:25%" class="subtitulo2">TEMPERATURA</td>');
+        $mpdf->WriteHTML('<td style="width:25%" class="subtitulo2">PESO</td>');
+        $mpdf->WriteHTML('<td style="width:25%" class="subtitulo2">TALLA</td>');
+        $mpdf->WriteHTML('<td style="width:25%" class="subtitulo2">IMC</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:25%">'. ($history->temperature == null ? '--' : ($history->temperature.' °C')) .'</td>');
+        $mpdf->WriteHTML('<td style="width:25%">'. ($history->weight == null ? '--' : ($history->weight.' KG')) .'</td>');
+        $mpdf->WriteHTML('<td style="width:25%">'. ($history->sice == null ? '--' : ($history->sice.' M')) .'</td>');
+        $mpdf->WriteHTML('<td style="width:25%">'. ($history->imc == null ? '--' : $history->imc) .'</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">EXAMEN GENERAL</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">'. ($history->general_exam == null ? '--' : $history->general_exam) .'</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">EXAMEN PREFERENCIAL</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">'. ($history->preferential_exam == null ? '--' : $history->preferential_exam) .'</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
+        if($diagnoses > 0){
+
+        $mpdf->WriteHTML('<br>');
         $mpdf->WriteHTML('<h3 class="subtitulo">DIAGNÓSTICOS</h3>');
 
+        if(count($diagnoses_p) > 0){
         $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
         $mpdf->WriteHTML('<tr>');
         $mpdf->WriteHTML('<td style="width:100%; text-align: center;" class="subtitulo2">DIAGNÓSTICOS PRESUNTIVOS</td>');
@@ -321,11 +438,16 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:15%" class="subtitulo2">CIE10</td>');
         $mpdf->WriteHTML('<td style="width:85%" class="subtitulo2">DIAGNÓSTICO</td>');
         $mpdf->WriteHTML('</tr>');
+        foreach($diagnoses_p as $diagnose_p){
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:15%">CIE10</td>');
-        $mpdf->WriteHTML('<td style="width:85%">DIAGNÓSTICO</td>');
+        $mpdf->WriteHTML('<td style="width:15%">'. $diagnose_p->internal_id .'</td>');
+        $mpdf->WriteHTML('<td style="width:85%">'. $diagnose_p->description .'</td>');
         $mpdf->WriteHTML('</tr>');
+        }
         $mpdf->WriteHTML('</table>');
+        }
+
+        if(count($diagnoses_d) > 0){
         $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
         $mpdf->WriteHTML('<tr>');
         $mpdf->WriteHTML('<td style="width:100%; text-align: center;" class="subtitulo2">DIAGNÓSTICOS DEFINITIVOS</td>');
@@ -336,26 +458,94 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:15%" class="subtitulo2">CIE10</td>');
         $mpdf->WriteHTML('<td style="width:85%" class="subtitulo2">DIAGNÓSTICO</td>');
         $mpdf->WriteHTML('</tr>');
+        foreach($diagnoses_d as $diagnose_d){
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:15%">CIE10</td>');
-        $mpdf->WriteHTML('<td style="width:85%">DIAGNÓSTICO</td>');
+        $mpdf->WriteHTML('<td style="width:15%">'. $diagnose_d->internal_id .'</td>');
+        $mpdf->WriteHTML('<td style="width:85%">'. $diagnose_d->description .'</td>');
         $mpdf->WriteHTML('</tr>');
+        }
         $mpdf->WriteHTML('</table>');
+        }
 
+        }
+
+        if($plans > 0){
         $mpdf->WriteHTML('<br>');
         $mpdf->WriteHTML('<h3 class="subtitulo">PLAN DE TRABAJO</h3>');
 
-
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        if(count($laboratorios) > 0){
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">EXAMENES DE LABORATORIO</td>');
+        $mpdf->WriteHTML('</tr>');
+        foreach($laboratorios as $laboratorio){
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">'. $laboratorio->type . ' - ' . $laboratorio->description .'</td>');
+        $mpdf->WriteHTML('</tr>');
+        }
+        }
+        if(count($imagenes) > 0){
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">EXAMENES RADIOLOGICOS</td>');
+        $mpdf->WriteHTML('</tr>');
+        foreach($imagenes as $imagen){
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">'. $imagen->type . ' - ' . $imagen->description .'</td>');
+        $mpdf->WriteHTML('</tr>');
+        }
+        }
+        if(count($procedimientos) > 0){
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">PROCEDIMIENTOS ESPECIALES</td>');
+        $mpdf->WriteHTML('</tr>');
+        foreach($procedimientos as $procedimiento){
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">'. $procedimiento->description .'</td>');
+        $mpdf->WriteHTML('</tr>');
+        }
+        }
+        if(count($interconsultas) > 0){
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">INTERCONSULTAS MEDICAS</td>');
+        $mpdf->WriteHTML('</tr>');
+        foreach($interconsultas as $interconsulta){
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:100%">'. $interconsulta->description .'</td>');
+        $mpdf->WriteHTML('</tr>');
+        }
+        }
+        $mpdf->WriteHTML('</table>');
+        }
 
         $mpdf->WriteHTML('<br>');
         $mpdf->WriteHTML('<h3 class="subtitulo">TRATAMIENTO</h3>');
 
+        if(count($treatments) > 0){            
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        foreach($treatments as $treatment){
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:40%" class="subtitulo2">MEDICAMENTO</td>');
+        $mpdf->WriteHTML('<td style="width:40%" class="subtitulo2">DOSIS</td>');
+        $mpdf->WriteHTML('<td style="width:10%" class="subtitulo2">FORMA</td>');
+        $mpdf->WriteHTML('<td style="width:10%" class="subtitulo2">CANT.</td>');
+        $mpdf->WriteHTML('</tr>');        
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:40%">'. $treatment->medicine .'</td>');
+        $mpdf->WriteHTML('<td style="width:40%">'. $treatment->dose .'</td>');
+        $mpdf->WriteHTML('<td style="width:10%">'. $treatment->shape .'</td>');
+        $mpdf->WriteHTML('<td style="width:10%">'. $treatment->quantity .'</td>');
+        $mpdf->WriteHTML('</tr>');
+        }
+        $mpdf->WriteHTML('</table>');
+        }
+
+        $mpdf->WriteHTML('<br>');
         $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
         $mpdf->WriteHTML('<tr>');
         $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">MEDIDAS HIGIÉNICAS DIETÉTICAS</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:100%">--</td>');
+        $mpdf->WriteHTML('<td style="width:100%">'. ($history->hygienic_measures == null ? '--' : $history->hygienic_measures) .'</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
 
@@ -368,11 +558,10 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">PRÓXIMA CITA</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:80%">--</td>');
-        $mpdf->WriteHTML('<td style="width:20%">--</td>');
+        $mpdf->WriteHTML('<td style="width:80%">'. ($history->observations == null ? '--' : $history->observations) .'</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. ($history->next_attention == null ? '--' : $history->next_attention) .'</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
-
 
         return $mpdf->Output('jose.pdf', 'I');
     }
