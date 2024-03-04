@@ -20,9 +20,10 @@ class MedicalRecordsController extends Controller
 {
     public function index($id)
     {
-        $histories = MedicalRecords::where('person_id', $id)->get();
+        $histories = MedicalRecords::where('person_id', $id)->orderBy('created_at', 'desc')->get();
+        $numeracion = 1;
 
-        return view('histories', compact('histories'));
+        return view('histories', compact('histories', 'numeracion'));
     }
 
     public function create($id)
@@ -273,7 +274,7 @@ class MedicalRecordsController extends Controller
                     text-align: center;
                     background: #DEDEDE;
                     color: #032691;
-                    padding: 4px;
+                    padding: 1px;
                 }
                 .subtitulo2 {
                     background: #DEDEDE;
@@ -466,7 +467,6 @@ class MedicalRecordsController extends Controller
         }
         $mpdf->WriteHTML('</table>');
         }
-
         }
 
         if($plans > 0){
@@ -537,9 +537,10 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('</tr>');
         }
         $mpdf->WriteHTML('</table>');
-        }
 
         $mpdf->WriteHTML('<br>');
+        }
+        
         $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
         $mpdf->WriteHTML('<tr>');
         $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">MEDIDAS HIGIÉNICAS DIETÉTICAS</td>');
