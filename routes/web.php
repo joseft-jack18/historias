@@ -31,7 +31,9 @@ Route::get('/history/{id}', [MedicalRecordsController::class, 'index'])->name('h
 Route::get('/history/create/{id}', [MedicalRecordsController::class, 'create'])->name('history.create');
 Route::post('/history/store', [MedicalRecordsController::class, 'store'])->name('history.store');
 
-Route::get('/history/pdf/{id}', [MedicalRecordsController::class, 'pdf_history'])->name('history.pdf');
+Route::get('/history/pdf/{id}', [MedicalRecordsController::class, 'pdf_history'])->name('history.pdf_history');
+Route::get('/history/pdf_procedure/{id}', [MedicalRecordsController::class, 'pdf_procedures'])->name('history.pdf_procedure');
+Route::get('/history/pdf_medical/{id}', [MedicalRecordsController::class, 'pdf_medical'])->name('history.pdf_medical');
 
 
 Route::get('/search/autocomplete_d', [SearchController::class, 'autocomplete_diagnosticos'])->name('search.autocomplete_diagnosticos');

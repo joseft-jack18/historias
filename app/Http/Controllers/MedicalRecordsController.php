@@ -182,6 +182,140 @@ class MedicalRecordsController extends Controller
         return redirect()->route('history.index', $request->post('person_id'))->with('success','Historia creada correctamente');
     }
 
+    public function pdf_procedures($id)
+    {
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A5',
+            'default_font_size' => 10,
+            'default_font' => 'sans-serif'
+        ]);
+
+        $mpdf->WriteHTML('hola mundo');
+
+        return $mpdf->Output('procedimientos.pdf', 'I');
+    }
+
+    public function pdf_medical($id)
+    {
+        $medicamentos = MedicalTreatments::where('history_id', '=', $id)->get();
+        $diagnosticos = DB::table('medical_diagnoses')
+                        ->join('diagnoses', 'diagnoses.id', '=', 'medical_diagnoses.diagnosis_id')
+                        ->select('diagnoses.internal_id', 'diagnoses.description', 'medical_diagnoses.type')
+                        ->where('medical_diagnoses.history_id', '=', $id)
+                        ->get();
+        $history = MedicalRecords::find($id);
+        $person = Persons::find($history->person_id);
+        $person->age = Carbon::parse($person->birthdate)->age;
+
+        //dd($diagnosticos);
+
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A5',
+            'default_font_size' => 8,
+            'default_font' => 'sans-serif'
+        ]);
+
+        //estilos css-------------------------------------
+        $mpdf->WriteHTML('
+            <style>
+                .titulo {
+                    text-align: center;
+                    background: #032691;
+                    color: #fff;
+                    padding: 4px;
+                }
+                .subtitulo {
+                    text-align: center;
+                    background: #DEDEDE;
+                    color: #032691;
+                    padding: 1px;
+                }
+                .subtitulo2 {
+                    background: #DEDEDE;
+                    color: #032691;
+                    font-weight: bold;
+                    padding: 3px 0px 3px 5px;
+                }
+            </style>
+        ');
+
+        //CUERPO HTML-------------------------------------------------------------------------------
+        $mpdf->WriteHTML('<h3 class="titulo">RECETA MÉDICA</h3>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">DATOS DEL PACIENTE</h3>');
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:50%" class="subtitulo2">PACIENTE</td>');
+        $mpdf->WriteHTML('<td style="width:10%"></td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">N° HISTORIA</td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">EDAD</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:50%">'. $person->name .'</td>');
+        $mpdf->WriteHTML('<td style="width:10%"></td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $person->number .'</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $person->age .' AÑOS</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
+        $mpdf->WriteHTML('<br>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">DIANÓSTICOS</h3>');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:15%; text-align: center" class="subtitulo2">CIE10</td>');
+        $mpdf->WriteHTML('<td style="width:70%" class="subtitulo2">DIAGNÓSTICO</td>');
+        $mpdf->WriteHTML('<td style="width:15%; text-align: center" class="subtitulo2">TIPO</td>');
+        $mpdf->WriteHTML('</tr>');
+
+        if(count($diagnosticos) > 0){
+            foreach($diagnosticos as $diagnostico){
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td style="width:15%; text-align: center">'. $diagnostico->internal_id .'</td>');
+            $mpdf->WriteHTML('<td style="width:70%">'. $diagnostico->description .'</td>');
+            $mpdf->WriteHTML('<td style="width:15%; text-align: center">'. $diagnostico->type .'</td>');
+            $mpdf->WriteHTML('</tr>');
+            }
+        } else {
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td style="width:100%; text-align: center">Sin Diagnósticos</td>');
+            $mpdf->WriteHTML('</tr>');
+        }
+
+        $mpdf->WriteHTML('</table>');
+
+        $mpdf->WriteHTML('<br>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">MEDICAMENTOS</h3>');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%; fontsize: 7px;">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:40%; text-align: center" class="subtitulo2">MEDICAMENTO</td>');
+        $mpdf->WriteHTML('<td style="width:40%; text-align: center" class="subtitulo2">DOSIS</td>');
+        $mpdf->WriteHTML('<td style="width:10%; text-align: center" class="subtitulo2">FORMA</td>');
+        $mpdf->WriteHTML('<td style="width:10%; text-align: center" class="subtitulo2">CANT.</td>');
+        $mpdf->WriteHTML('</tr>');
+
+        if(count($medicamentos) > 0){
+            foreach($medicamentos as $medicamento){
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td style="width:40%">'. $medicamento->medicine .'</td>');
+            $mpdf->WriteHTML('<td style="width:40%">'. $medicamento->dose .'</td>');
+            $mpdf->WriteHTML('<td style="width:10%; text-align: center">'. $medicamento->shape .'</td>');
+            $mpdf->WriteHTML('<td style="width:10%; text-align: center">'. $medicamento->quantity .'</td>');
+            $mpdf->WriteHTML('</tr>');
+            }
+        } else {
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td style="width:100%; text-align: center" colspan="4">Sin medicamentos</td>');
+            $mpdf->WriteHTML('</tr>');
+        }
+
+        $mpdf->WriteHTML('</table>');
+
+        return $mpdf->Output('receta.pdf', 'I');
+    }
+
     public function pdf_history($id)
     {
         $history = MedicalRecords::find($id);
@@ -520,7 +654,7 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<br>');
         $mpdf->WriteHTML('<h3 class="subtitulo">TRATAMIENTO</h3>');
 
-        if(count($treatments) > 0){            
+        if(count($treatments) > 0){
         $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
         foreach($treatments as $treatment){
         $mpdf->WriteHTML('<tr>');
@@ -528,7 +662,7 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:40%" class="subtitulo2">DOSIS</td>');
         $mpdf->WriteHTML('<td style="width:10%" class="subtitulo2">FORMA</td>');
         $mpdf->WriteHTML('<td style="width:10%" class="subtitulo2">CANT.</td>');
-        $mpdf->WriteHTML('</tr>');        
+        $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
         $mpdf->WriteHTML('<td style="width:40%">'. $treatment->medicine .'</td>');
         $mpdf->WriteHTML('<td style="width:40%">'. $treatment->dose .'</td>');
@@ -540,7 +674,7 @@ class MedicalRecordsController extends Controller
 
         $mpdf->WriteHTML('<br>');
         }
-        
+
         $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
         $mpdf->WriteHTML('<tr>');
         $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">MEDIDAS HIGIÉNICAS DIETÉTICAS</td>');
@@ -564,7 +698,7 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
 
-        return $mpdf->Output('jose.pdf', 'I');
+        return $mpdf->Output('historia.pdf', 'I');
     }
 
     public function show(MedicalRecords $medicalRecords)

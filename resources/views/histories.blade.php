@@ -41,9 +41,20 @@
                                         <td>{{ $history->reason_consultation }}</td>
                                         <td>{{ $history->observations }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('history.pdf', $history->id) }}" target="_blank" class="btn">
+                                            <a href="#" target="_blank" class="btn">
+                                                <i class='bx bx-edit bx-sm' style="color: #E3AF0C"></i>
+                                            </a>
+
+                                            <a href="{{ route('history.pdf_history', $history->id) }}" target="_blank" class="btn">
                                                 <i class="bx bxs-file-pdf bx-sm" style="color: #D11111"></i>
                                             </a>
+                                            <a href="{{ route('history.pdf_procedure', $history->id) }}" target="_blank" class="btn">
+                                                <i class='bx bx-list-ol bx-sm' style="color: #46B8B6"></i>
+                                            </a>
+                                            <a href="{{ route('history.pdf_medical', $history->id) }}" target="_blank" class="btn">
+                                                <i class='bx bx-receipt bx-sm' style="color: #0A2F92"></i>
+                                            </a>
+
                                             <a href="#" class="btn">
                                                 <i class="bx bx-archive-in bx-sm" style="color: #158A12"></i>
                                             </a>
