@@ -868,7 +868,10 @@ class MedicalRecordsController extends Controller
             'mode' => 'utf-8',
             'format' => 'A5',
             'default_font_size' => 8,
-            'default_font' => 'sans-serif'
+            'default_font' => 'sans-serif',
+            'margin_left' => 8,
+            'margin_right' => 8,
+            'margin_top' => 8
         ]);
 
         //estilos css-------------------------------------
@@ -1043,11 +1046,11 @@ class MedicalRecordsController extends Controller
         $plans = count($laboratorios) + count($imagenes) + count($procedimientos) + count($interconsultas);
 
         $mpdf = new Mpdf([
-                    'mode' => 'utf-8',
-                    'format' => 'A4',
-                    'default_font_size' => 10,
-                    'default_font' => 'sans-serif'
-                ]);
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'default_font_size' => 10,
+            'default_font' => 'sans-serif',
+        ]);
 
         //ESTILOS CSS-------------------------------------------------------------------------------
         $mpdf->WriteHTML('
