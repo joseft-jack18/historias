@@ -843,8 +843,54 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<td style="width:2%; text-align: center"></td>');
         $mpdf->WriteHTML('<td style="width:32%"></td>');
         $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
 
+        $mpdf->AddPage('L');
 
+        //CUERPO HTML-------------------------------------------------------------------------------
+        $mpdf->WriteHTML('<h3 class="titulo">LABORATORIO CLÍNICO</h3>');
+        $mpdf->WriteHTML('<h3 class="subtitulo">DATOS DEL PACIENTE</h3>');
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:50%" class="subtitulo2">PACIENTE</td>');
+        $mpdf->WriteHTML('<td style="width:10%"></td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">N° HISTORIA</td>');
+        $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">EDAD</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:50%">'. $person->name .'</td>');
+        $mpdf->WriteHTML('<td style="width:10%"></td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $person->number .'</td>');
+        $mpdf->WriteHTML('<td style="width:20%">'. $person->age .' AÑOS</td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
+        $mpdf->WriteHTML('<br>');
+
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%; font-size: 10px">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:19%; text-align: center" class="subtitulo2">BIOQUIMICA</td>');
+        $mpdf->WriteHTML('<td style="width:1%; text-align: center"></td>');
+        $mpdf->WriteHTML('<td style="width:19%; text-align: center" class="subtitulo2">MICROBIOLOGIA</td>');
+        $mpdf->WriteHTML('<td style="width:1%; text-align: center"></td>');
+        $mpdf->WriteHTML('<td style="width:19%; text-align: center" class="subtitulo2">INMUNOLOGIA</td>');
+        $mpdf->WriteHTML('<td style="width:1%; text-align: center"></td>');
+        $mpdf->WriteHTML('<td style="width:19%; text-align: center" class="subtitulo2">HEMATOLOGIA</td>');
+        $mpdf->WriteHTML('<td style="width:1%; text-align: center"></td>');
+        $mpdf->WriteHTML('<td style="width:20%; text-align: center" class="subtitulo2">ORINA</td>');
+        $mpdf->WriteHTML('</tr>');
+
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:19%"><input type="radio" id="huey" name="drone" value="huey" /> Ácido Úrico</td>');
+        $mpdf->WriteHTML('<td style="width:1%; text-align: center"></td>');
+        $mpdf->WriteHTML('<td style="width:19%"><input type="radio" id="huey" name="drone" value="huey" /> Urografía</td>');
+        $mpdf->WriteHTML('<td style="width:1%; text-align: center"></td>');
+        $mpdf->WriteHTML('<td style="width:19%"><input type="radio" id="huey" name="drone" value="huey" /> Urografía</td>');
+        $mpdf->WriteHTML('<td style="width:1%; text-align: center"></td>');
+        $mpdf->WriteHTML('<td style="width:19%"><input type="radio" id="huey" name="drone" value="huey" /> Esofagograma</td>');
+        $mpdf->WriteHTML('<td style="width:1%; text-align: center"></td>');
+        $mpdf->WriteHTML('<td style="width:20%"><input type="radio" id="huey" name="drone" value="huey" /> Fistulografía</td>');
+        $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
 
         return $mpdf->Output('procedimientos.pdf', 'I');
