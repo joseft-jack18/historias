@@ -785,7 +785,14 @@ class MedicalRecordsController extends Controller
 
         //CUERPO HTML-------------------------------------------------------------------------------
         if(count($tomografias) > 0){
-            $mpdf->WriteHTML('<h3 class="titulo">LISTADO DE TOMOGRAFIAS</h3>');
+            $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%; font-size: 14px;" class="titulo">');
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td style="width:10%"><img src="dist/img/logo.png" style="padding-bottom: 0px" height="40" width="40"></td>');
+            $mpdf->WriteHTML('<td style="width:80%"><b>LISTADO DE TOMOGRAFIAS</b></td>');
+            $mpdf->WriteHTML('<td style="width:10%"></td>');
+            $mpdf->WriteHTML('</tr>');
+            $mpdf->WriteHTML('</table>');
+
             $mpdf->WriteHTML('<h3 class="subtitulo">DATOS DEL PACIENTE</h3>');
             $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
             $mpdf->WriteHTML('<tr>');
@@ -1043,7 +1050,14 @@ class MedicalRecordsController extends Controller
             $mpdf->AddPage();
 
             //CUERPO HTML-------------------------------------------------------------------------------
-            $mpdf->WriteHTML('<h3 class="titulo">LISTADO DE ECOGRAFIAS</h3>');
+            $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%; font-size: 14px;" class="titulo">');
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td style="width:10%"><img src="dist/img/logo.png" style="padding-bottom: 0px" height="40" width="40"></td>');
+            $mpdf->WriteHTML('<td style="width:80%"><b>LISTADO DE ECOGRAFIAS</b></td>');
+            $mpdf->WriteHTML('<td style="width:10%"></td>');
+            $mpdf->WriteHTML('</tr>');
+            $mpdf->WriteHTML('</table>');
+
             $mpdf->WriteHTML('<h3 class="subtitulo">DATOS DEL PACIENTE</h3>');
             $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
             $mpdf->WriteHTML('<tr>');
@@ -1169,7 +1183,14 @@ class MedicalRecordsController extends Controller
             $mpdf->AddPage();
 
             //CUERPO HTML-------------------------------------------------------------------------------
-            $mpdf->WriteHTML('<h3 class="titulo">LISTADO DE RADIOGRAFÍAS</h3>');
+            $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%; font-size: 14px;" class="titulo">');
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td style="width:10%"><img src="dist/img/logo.png" style="padding-bottom: 0px" height="40" width="40"></td>');
+            $mpdf->WriteHTML('<td style="width:80%"><b>LISTADO DE RADIOGRAFÍAS</b></td>');
+            $mpdf->WriteHTML('<td style="width:10%"></td>');
+            $mpdf->WriteHTML('</tr>');
+            $mpdf->WriteHTML('</table>');
+
             $mpdf->WriteHTML('<h3 class="subtitulo">DATOS DEL PACIENTE</h3>');
             $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
             $mpdf->WriteHTML('<tr>');
@@ -1414,7 +1435,16 @@ class MedicalRecordsController extends Controller
             $mpdf->AddPage('L');
 
             //CUERPO HTML-------------------------------------------------------------------------------
-            $mpdf->WriteHTML('<h3 class="titulo">LABORATORIO CLÍNICO</h3>');
+            $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%; font-size: 14px;" class="titulo">');
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td style="width:10%"><img src="dist/img/logo.png" style="padding-bottom: 0px" height="40" width="40"></td>');
+            $mpdf->WriteHTML('<td style="width:80%"><b>LABORATORIO CLÍNICO</b></td>');
+            $mpdf->WriteHTML('<td style="width:10%"></td>');
+            $mpdf->WriteHTML('</tr>');
+            $mpdf->WriteHTML('</table>');
+
+            $mpdf->WriteHTML('<br>');
+
             $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
             $mpdf->WriteHTML('<tr>');
             $mpdf->WriteHTML('<td style="width:50%" class="subtitulo2">PACIENTE</td>');
@@ -2267,7 +2297,14 @@ class MedicalRecordsController extends Controller
         ');
 
         //CUERPO HTML-------------------------------------------------------------------------------
-        $mpdf->WriteHTML('<h3 class="titulo">RECETA MÉDICA</h3>');
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%; font-size: 14px;" class="titulo">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:10%"><img src="dist/img/logo.png" style="padding-bottom: 0px" height="40" width="40"></td>');
+        $mpdf->WriteHTML('<td style="width:80%"><b>RECETA MÉDICA</b></td>');
+        $mpdf->WriteHTML('<td style="width:10%"></td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
         $mpdf->WriteHTML('<h3 class="subtitulo">DATOS DEL PACIENTE</h3>');
         $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
         $mpdf->WriteHTML('<tr>');
@@ -2443,7 +2480,14 @@ class MedicalRecordsController extends Controller
         ');
 
         //CUERPO HTML-------------------------------------------------------------------------------
-        $mpdf->WriteHTML('<h3 class="titulo">HISTORIA CLINICA - CONSULTA EXTERNA</h3>');
+        $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%; font-size: 16px;" class="titulo">');
+        $mpdf->WriteHTML('<tr>');
+        $mpdf->WriteHTML('<td style="width:10%"><img src="dist/img/logo.png" style="padding-bottom: 0px" height="60" width="60"></td>');
+        $mpdf->WriteHTML('<td style="width:80%"><b>HISTORIA CLINICA - CONSULTA EXTERNA</b></td>');
+        $mpdf->WriteHTML('<td style="width:10%"></td>');
+        $mpdf->WriteHTML('</tr>');
+        $mpdf->WriteHTML('</table>');
+
         $mpdf->WriteHTML('<h3 class="subtitulo">DATOS DEL PACIENTE</h3>');
         $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
         $mpdf->WriteHTML('<tr>');
@@ -2581,7 +2625,6 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('</table>');
 
         if($diagnoses > 0){
-
         $mpdf->WriteHTML('<br>');
         $mpdf->WriteHTML('<h3 class="subtitulo">DIAGNÓSTICOS</h3>');
 
