@@ -14,7 +14,7 @@ class PersonsController extends Controller
 {
     public function index()
     {
-        $datos = Persons::all();
+        $datos = Persons::paginate(10);
 
         // Formatear las fechas para mostrarlas como edad
         $datos->transform(function ($dato) {
