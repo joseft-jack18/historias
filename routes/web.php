@@ -36,13 +36,17 @@ Route::middleware('auth')->group(function () {
     Route::put('/person/update_person/{id}', [PersonsController::class, 'update'])->name('persons.update');
 
 
+
     Route::get('/history/{id}', [MedicalRecordsController::class, 'index'])->name('history.index');
     Route::get('/history/create/{id}', [MedicalRecordsController::class, 'create'])->name('history.create');
     Route::post('/history/store', [MedicalRecordsController::class, 'store'])->name('history.store');
-
     Route::get('/history/pdf/{id}', [MedicalRecordsController::class, 'pdf_history'])->name('history.pdf_history');
     Route::get('/history/pdf_procedure/{id}', [MedicalRecordsController::class, 'pdf_procedures'])->name('history.pdf_procedure');
     Route::get('/history/pdf_medical/{id}', [MedicalRecordsController::class, 'pdf_medical'])->name('history.pdf_medical');
+
+    Route::get('/history/edit/{id}', [MedicalRecordsController::class, 'edit'])->name('history.edit');
+    Route::put('/history/update/{id}', [MedicalRecordsController::class, 'update'])->name('history.update');
+
 
 
     Route::get('/search/autocomplete_d', [SearchController::class, 'autocomplete_diagnosticos'])->name('search.autocomplete_diagnosticos');

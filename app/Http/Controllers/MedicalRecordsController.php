@@ -1442,8 +1442,6 @@ class MedicalRecordsController extends Controller
             $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');
 
-            $mpdf->WriteHTML('<br>');
-
             $mpdf->WriteHTML('<h3 class="subtitulo">ORDEN DE LABORATORIO CLÍNICO</h3>');
             $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
             $mpdf->WriteHTML('<tr>');
@@ -2772,14 +2770,19 @@ class MedicalRecordsController extends Controller
         //
     }
 
-    public function edit(MedicalRecords $medicalRecords)
+    public function edit($id)
     {
-        //
+        $history = MedicalRecords::find($id);
+        $personHistory = PersonHistory::where('person_id', '=', $history->person_id)->first();
+        $person = Persons::find($history->person_id);
+        $person->age = Carbon::parse($person->birthdate)->age;
+
+        return view('edit_history', compact('history', 'person', 'personHistory'));
     }
 
-    public function update(Request $request, MedicalRecords $medicalRecords)
+    public function update(Request $request, $id)
     {
-        //
+        dd($request);
     }
 
     public function destroy(MedicalRecords $medicalRecords)

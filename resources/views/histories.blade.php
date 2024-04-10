@@ -41,7 +41,7 @@
                                         <td>{{ $history->reason_consultation }}</td>
                                         <td>{{ $history->observations }}</td>
                                         <td class="text-center">
-                                            <a href="#" target="_blank" class="btn">
+                                            <a href="{{ route('history.edit', $history->id) }}" class="btn">
                                                 <i class='bx bx-edit bx-sm' style="color: #E3AF0C"></i>
                                             </a>
 
