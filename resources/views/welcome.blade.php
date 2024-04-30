@@ -2,6 +2,10 @@
 
 @section('titulo', 'Historias Clinicas')
 
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.css">
+@endsection
+
 @section('contenido')
 
     <!-- Main content -->
@@ -24,22 +28,11 @@
                             <a href="{{ route('persons.create') }}">
                                 <button type="button" class="btn btn-success btn-sm"><i class='bx bx-user-plus'></i> Agregar</button>
                             </a>
-
-                            <div class="card-tools">
-                                <div class="input-group input-group-sm" style="width: 250px; height: 2px;">
-                                    <input type="text" name="table_search" class="form-control float-right" placeholder="Buscar">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-default">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-bordered">
+                            <table class="display" id="example" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
@@ -96,4 +89,42 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+@endsection
+
+@section('js')
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
+
+    <script>
+        $('#example').DataTable({
+            "scrollX": true,
+            "info": false,
+            "lengthChange": false,
+            "pageLength": 5,
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        });
+    </script>
 @endsection

@@ -799,13 +799,13 @@ class MedicalRecordsController extends Controller
             $mpdf->WriteHTML('<td style="width:50%" class="subtitulo2">PACIENTE</td>');
             $mpdf->WriteHTML('<td style="width:10%"></td>');
             $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">N° HISTORIA</td>');
-            $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">EDAD</td>');
+            $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">F. ATENCION</td>');
             $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('<tr>');
             $mpdf->WriteHTML('<td style="width:50%">'. $person->name .'</td>');
             $mpdf->WriteHTML('<td style="width:10%"></td>');
             $mpdf->WriteHTML('<td style="width:20%">'. $person->number .'</td>');
-            $mpdf->WriteHTML('<td style="width:20%">'. $person->age .' AÑOS</td>');
+            $mpdf->WriteHTML('<td style="width:20%">'. $history->updated_at .'</td>');
             $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');
 
@@ -1064,13 +1064,13 @@ class MedicalRecordsController extends Controller
             $mpdf->WriteHTML('<td style="width:50%" class="subtitulo2">PACIENTE</td>');
             $mpdf->WriteHTML('<td style="width:10%"></td>');
             $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">N° HISTORIA</td>');
-            $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">EDAD</td>');
+            $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">F. ATENCION</td>');
             $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('<tr>');
             $mpdf->WriteHTML('<td style="width:50%">'. $person->name .'</td>');
             $mpdf->WriteHTML('<td style="width:10%"></td>');
             $mpdf->WriteHTML('<td style="width:20%">'. $person->number .'</td>');
-            $mpdf->WriteHTML('<td style="width:20%">'. $person->age .' AÑOS</td>');
+            $mpdf->WriteHTML('<td style="width:20%">'. $history->updated_at .'</td>');
             $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');
 
@@ -1197,13 +1197,13 @@ class MedicalRecordsController extends Controller
             $mpdf->WriteHTML('<td style="width:50%" class="subtitulo2">PACIENTE</td>');
             $mpdf->WriteHTML('<td style="width:10%"></td>');
             $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">N° HISTORIA</td>');
-            $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">EDAD</td>');
+            $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">F. ATENCION</td>');
             $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('<tr>');
             $mpdf->WriteHTML('<td style="width:50%">'. $person->name .'</td>');
             $mpdf->WriteHTML('<td style="width:10%"></td>');
             $mpdf->WriteHTML('<td style="width:20%">'. $person->number .'</td>');
-            $mpdf->WriteHTML('<td style="width:20%">'. $person->age .' AÑOS</td>');
+            $mpdf->WriteHTML('<td style="width:20%">'. $history->updated_at .'</td>');
             $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');
 
@@ -1448,13 +1448,13 @@ class MedicalRecordsController extends Controller
             $mpdf->WriteHTML('<td style="width:50%" class="subtitulo2">PACIENTE</td>');
             $mpdf->WriteHTML('<td style="width:10%"></td>');
             $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">N° HISTORIA</td>');
-            $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">EDAD</td>');
+            $mpdf->WriteHTML('<td style="width:20%" class="subtitulo2">F. ATENCION</td>');
             $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('<tr>');
             $mpdf->WriteHTML('<td style="width:50%">'. $person->name .'</td>');
             $mpdf->WriteHTML('<td style="width:10%"></td>');
             $mpdf->WriteHTML('<td style="width:20%">'. $person->number .'</td>');
-            $mpdf->WriteHTML('<td style="width:20%">'. $person->age .' AÑOS</td>');
+            $mpdf->WriteHTML('<td style="width:20%">'. $history->updated_at .'</td>');
             $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');
 
@@ -2306,10 +2306,14 @@ class MedicalRecordsController extends Controller
         $mpdf->WriteHTML('<h3 class="subtitulo">RECETA MÉDICA</h3>');
         $mpdf->WriteHTML('<table cellspacing="0" style="width: 100%">');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:100%" class="subtitulo2">PACIENTE</td>');
+        $mpdf->WriteHTML('<td style="width:60%" class="subtitulo2">PACIENTE</td>');
+        $mpdf->WriteHTML('<td style="width:5%"></td>');
+        $mpdf->WriteHTML('<td style="width:35%" class="subtitulo2">F. ATENCION</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('<tr>');
-        $mpdf->WriteHTML('<td style="width:100%">'. $person->number . ' - ' . $person->name .'</td>');
+        $mpdf->WriteHTML('<td style="width:60%">'. $person->number . ' - ' . $person->name .'</td>');
+        $mpdf->WriteHTML('<td style="width:5%"></td>');
+        $mpdf->WriteHTML('<td style="width:35%">'. $history->updated_at.'</td>');
         $mpdf->WriteHTML('</tr>');
         $mpdf->WriteHTML('</table>');
 
