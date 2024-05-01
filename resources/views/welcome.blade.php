@@ -71,12 +71,6 @@
                                     @endforeach
                                 </tbody>
                             </table>
-
-                            <div class="clearfix mt-2">
-                                <ul class="pagination pagination-sm m-0 float-right">
-                                    {{ $datos->links() }}
-                                </ul>
-                            </div>
                         </div>
 
                         <!-- /.card-body -->
