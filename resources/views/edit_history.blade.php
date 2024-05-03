@@ -52,6 +52,7 @@
                                             </li>
                                         </ul>
                                     </div>
+
                                     <div class="card-body">
                                         <div class="tab-content" id="custom-tabs-three-tabContent">
                                             <div class="tab-pane fade show active" id="enfermedad" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
@@ -183,7 +184,7 @@
 
                                                     <div class="col-md-2 mb-2">
                                                         <label for="size" class="form-label">Talla (m)</label>
-                                                        <input type="text" class="form-control" id="size" name="size" value="{{ $history->size }}">
+                                                        <input type="text" class="form-control" id="size" name="size" value="{{ $history->sice }}">
                                                     </div>
 
                                                     <div class="col-md-4 mb-2">
@@ -207,7 +208,7 @@
                                                 <div class="row g-3">
                                                     <div class="col-12 mb-2">
                                                         <h5>Diagnosticos Presuntivos</h5>
-                                                        <input type="hidden" class="form-control" id="diagnosticosPresuntivos" name="diagnosticosPresuntivos" readonly>
+                                                        <input type="hidden" class="form-control" id="diagnosticosPresuntivos" name="diagnosticosPresuntivos" value="{{ $jsonDP }}" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="diagnostico_p"></td>
@@ -222,7 +223,7 @@
                                                 <div class="row g-3">
                                                     <div class="col-12 mb-2">
                                                         <h5>Diagnosticos Definitivos</h5>
-                                                        <input type="hidden" class="form-control" id="diagnosticosDefinitivos" name="diagnosticosDefinitivos" readonly>
+                                                        <input type="hidden" class="form-control" id="diagnosticosDefinitivos" name="diagnosticosDefinitivos" value="{{ $jsonDD }}" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="diagnostico_d"></td>
@@ -287,7 +288,7 @@
                                             <div class="tab-pane fade" id="tratamientos" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <input type="hidden" class="form-control" id="arrayTratamientos" name="arrayTratamientos" readonly>
+                                                        <input type="text" class="form-control" id="arrayTratamientos" name="arrayTratamientos" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 70%"><input type="text" class="form-control" id="medicamento" placeholder="Nombre del Medicamento"></td>
@@ -382,13 +383,10 @@
 @section('js')
 
     <script>
-        let diagnosticos_presuntivos = [];
-        let datos_dp = JSON.stringify(diagnosticos_presuntivos);
-        document.getElementById('diagnosticosPresuntivos').value = datos_dp;
 
-        let diagnosticos_definitivos = [];
-        let datos_dd = JSON.stringify(diagnosticos_definitivos);
-        document.getElementById('diagnosticosDefinitivos').value = datos_dd;
+        //let diagnosticos_definitivos = [];
+        //let datos_dd = JSON.stringify(diagnosticos_definitivos);
+        //document.getElementById('diagnosticosDefinitivos').value = datos_dd;
 
         let examenes_laboratorio = [];
         let datos_el = JSON.stringify(examenes_laboratorio);
@@ -417,6 +415,27 @@
         let pe_texto = "";
         let in_texto = "";
         let tr_texto = "";
+
+
+        let dp = $('#diagnosticosPresuntivos').val();
+        let diagnosticos_presuntivos = JSON.parse(dp);
+        diagnosticos_presuntivos.forEach(function(diagnostico) {
+            dp_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+diagnostico.text+
+                        '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_dp('
+                        +diagnostico.id+')"><i class="bx bx-x"></i></button></td></tr>';
+        });
+        $('#diagnosticos_presuntivos').html(dp_texto);
+
+
+        let dd = $('#diagnosticosDefinitivos').val();
+        let diagnosticos_definitivos = JSON.parse(dd);
+        diagnosticos_definitivos.forEach(function(diagnostico) {
+            dd_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+diagnostico.text+
+                        '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_dd('
+                        +diagnostico.id+')"><i class="bx bx-x"></i></button></td></tr>';
+        });
+        $('#diagnosticos_definitivos').html(dd_texto);
+
 
         //DIAGNOSTICOS PRESUNTIVOS------------------------------------------------------------------------------------------------
         $('#diagnostico_p').autocomplete({

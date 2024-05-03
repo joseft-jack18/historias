@@ -2781,7 +2781,29 @@ class MedicalRecordsController extends Controller
         $person = Persons::find($history->person_id);
         $person->age = Carbon::parse($person->birthdate)->age;
 
-        return view('edit_history', compact('history', 'person', 'personHistory'));
+        $diagnoses_p = DB::table('medical_diagnoses')
+                        ->join('diagnoses', 'diagnoses.id', '=', 'medical_diagnoses.diagnosis_id')
+                        ->select('diagnoses.id')
+                        ->selectRaw('CONCAT(diagnoses.internal_id, " - ", diagnoses.description) AS text')
+                        ->where('medical_diagnoses.history_id', '=', $id)
+                        ->where('medical_diagnoses.type', '=', 'P')
+                        ->get();
+        $jsonDP = json_encode($diagnoses_p, JSON_UNESCAPED_UNICODE);
+        $diagnoses_d = DB::table('medical_diagnoses')
+                        ->join('diagnoses', 'diagnoses.id', '=', 'medical_diagnoses.diagnosis_id')
+                        ->select('diagnoses.id')
+                        ->selectRaw('CONCAT(diagnoses.internal_id, " - ", diagnoses.description) AS text')
+                        ->where('medical_diagnoses.history_id', '=', $id)
+                        ->where('medical_diagnoses.type', '=', 'D')
+                        ->get();
+        $jsonDD = json_encode($diagnoses_d, JSON_UNESCAPED_UNICODE);
+
+        $treatments = MedicalTreatments::where('history_id', '=', $id)->get();
+        //$jsonTR = json_encode($treatments, JSON_UNESCAPED_UNICODE);
+
+        dd($treatments);
+
+        return view('edit_history', compact('history', 'person', 'personHistory'), ['jsonDP' => $jsonDP, 'jsonDD' => $jsonDD, 'jsonTR' => $jsonTR]);
     }
 
     public function update(Request $request, $id)

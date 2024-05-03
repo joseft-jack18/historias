@@ -54,10 +54,6 @@
                                             <a href="{{ route('history.pdf_medical', $history->id) }}" target="_blank" class="btn">
                                                 <i class='bx bx-receipt bx-sm' style="color: #0A2F92"></i>
                                             </a>
-
-                                            <a href="#" class="btn">
-                                                <i class="bx bx-archive-in bx-sm" style="color: #158A12"></i>
-                                            </a>
                                         </td>
                                     </tr>
                                     @endforeach
