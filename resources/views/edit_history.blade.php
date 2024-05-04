@@ -238,7 +238,7 @@
                                                 <div class="row g-3">
                                                     <div class="col-6 mb-2">
                                                         <h5>Exámenes de Laboratorio</h5>
-                                                        <input type="hidden" class="form-control" id="examenesLaboratorio" name="examenesLaboratorio" readonly>
+                                                        <input type="hidden" class="form-control" id="examenesLaboratorio" name="examenesLaboratorio" value="{{ $jsonLB }}" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="laboratorio"></td>
@@ -249,7 +249,7 @@
 
                                                     <div class="col-6 mb-2">
                                                         <h5>Exámenes Radiológicos</h5>
-                                                        <input type="hidden" class="form-control" id="examenesRadiologicos" name="examenesRadiologicos" readonly>
+                                                        <input type="hidden" class="form-control" id="examenesRadiologicos" name="examenesRadiologicos" value="{{ $jsonIM }}" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="radiologicos"></td>
@@ -260,7 +260,7 @@
 
                                                     <div class="col-6 mb-2">
                                                         <h5>Procedimientos Especiales</h5>
-                                                        <input type="hidden" class="form-control" id="procedimientosEspeciales" name="procedimientosEspeciales" readonly>
+                                                        <input type="hidden" class="form-control" id="procedimientosEspeciales" name="procedimientosEspeciales" value="{{ $jsonPR }}" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 95%"><input type="text" class="form-control" id="procedimientos"></td>
@@ -274,7 +274,7 @@
 
                                                     <div class="col-6 mb-2">
                                                         <h5>Interconsultas</h5>
-                                                        <input type="hidden" class="form-control" id="interconsultasMedicas" name="interconsultasMedicas" readonly>
+                                                        <input type="hidden" class="form-control" id="interconsultasMedicas" name="interconsultasMedicas" value="{{ $jsonIN }}" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 100%" colspan="2"><input type="text" class="form-control" id="interconsultas"></td>
@@ -288,7 +288,7 @@
                                             <div class="tab-pane fade" id="tratamientos" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <input type="text" class="form-control" id="arrayTratamientos" name="arrayTratamientos" readonly>
+                                                        <input type="hidden" class="form-control" id="arrayTratamientos" name="arrayTratamientos" value="{{ $jsonTR }}" readonly>
                                                         <table style="width: 100%">
                                                             <tr>
                                                                 <td style="width: 70%"><input type="text" class="form-control" id="medicamento" placeholder="Nombre del Medicamento"></td>
@@ -383,31 +383,6 @@
 @section('js')
 
     <script>
-
-        //let diagnosticos_definitivos = [];
-        //let datos_dd = JSON.stringify(diagnosticos_definitivos);
-        //document.getElementById('diagnosticosDefinitivos').value = datos_dd;
-
-        let examenes_laboratorio = [];
-        let datos_el = JSON.stringify(examenes_laboratorio);
-        document.getElementById('examenesLaboratorio').value = datos_el;
-
-        let procedimientos_especiales = [];
-        let datos_pe = JSON.stringify(procedimientos_especiales);
-        document.getElementById('procedimientosEspeciales').value = datos_pe;
-
-        let examenes_radiologicos = [];
-        let datos_er = JSON.stringify(examenes_radiologicos);
-        document.getElementById('examenesRadiologicos').value = datos_er;
-
-        let interconsultas_medicas = [];
-        let datos_im = JSON.stringify(interconsultas_medicas);
-        document.getElementById('interconsultasMedicas').value = datos_im;
-
-        let tratamientos = [];
-        let datos_tr = JSON.stringify(tratamientos);
-        document.getElementById('arrayTratamientos').value = datos_tr;
-
         let dp_texto = "";
         let dd_texto = "";
         let lb_texto = "";
@@ -415,7 +390,6 @@
         let pe_texto = "";
         let in_texto = "";
         let tr_texto = "";
-
 
         let dp = $('#diagnosticosPresuntivos').val();
         let diagnosticos_presuntivos = JSON.parse(dp);
@@ -426,7 +400,6 @@
         });
         $('#diagnosticos_presuntivos').html(dp_texto);
 
-
         let dd = $('#diagnosticosDefinitivos').val();
         let diagnosticos_definitivos = JSON.parse(dd);
         diagnosticos_definitivos.forEach(function(diagnostico) {
@@ -435,6 +408,64 @@
                         +diagnostico.id+')"><i class="bx bx-x"></i></button></td></tr>';
         });
         $('#diagnosticos_definitivos').html(dd_texto);
+
+        let lb = $('#examenesLaboratorio').val();
+        let examenes_laboratorio = JSON.parse(lb);
+        examenes_laboratorio.forEach(function(laboratorio) {
+            lb_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+laboratorio.text+
+                        '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_lb('
+                        +laboratorio.id+')"><i class="bx bx-x"></i></button></td></tr>';
+        });
+        $('#examenes_laboratorio').html(lb_texto);
+
+        let rx = $('#examenesRadiologicos').val();
+        let examenes_radiologicos = JSON.parse(rx);
+        examenes_radiologicos.forEach(function(radiologico) {
+            rx_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+radiologico.text+
+                        '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_rx('
+                        +radiologico.id+')"><i class="bx bx-x"></i></button></td></tr>';
+        });
+        $('#examenes_radiologicos').html(rx_texto);
+
+        let pr = $('#procedimientosEspeciales').val();
+        let procedimientos_especiales = JSON.parse(pr);
+        procedimientos_especiales.forEach(function(procedimiento) {
+            pe_texto += '<tr>';
+            pe_texto += '<td style="width: 95%">';
+            pe_texto += '<input type="text" class="form-control" value="'+procedimiento.text+'" readonly>';
+            pe_texto += '</td>';
+            pe_texto += '<td style="width: 5%">';
+            pe_texto += `<button type="button" class="btn btn-danger col-md-12" onclick="eliminar_pe('${procedimiento.text}')"><i class="bx bx-x"></i></button></td></tr>`;
+        });
+        $('#procedimientos_especiales').html(pe_texto);
+
+        let inter = $('#interconsultasMedicas').val();
+        let interconsultas_medicas = JSON.parse(inter);
+        interconsultas_medicas.forEach(function(interconsulta) {
+            in_texto += '<tr><td style="width: 95%"><input type="text" class="form-control" value="'+interconsulta.text+
+                        '" readonly></td><td style="width: 5%"><button type="button" class="btn btn-danger col-md-12" onclick="eliminar_in('
+                        +interconsulta.id+')"><i class="bx bx-x"></i></button></td></tr>';
+        });
+        $('#interconsultas_medicas').html(in_texto);
+
+        let tr = $('#arrayTratamientos').val();
+        let tratamientos = JSON.parse(tr);
+        tratamientos.forEach(function(tratamiento) {
+            tr_texto += '<tr>';
+            tr_texto += '<td style="width: 70%"><input type="text" class="form-control" readonly value="'+ tratamiento.medicine +'"></td>';
+            tr_texto += '<td style="width: 30%"><input type="text" class="form-control" readonly value="'+ tratamiento.shape +'"></td>';
+            tr_texto += '</tr>';
+            tr_texto += '<tr>';
+            tr_texto += '<td style="width: 70%"><input type="text" class="form-control" readonly value="'+ tratamiento.dose +'"></td>';
+            tr_texto += '<td style="width: 30%"><input type="text" class="form-control" readonly value="'+ tratamiento.quantity +'"></td>';
+            tr_texto += '</tr>';
+            tr_texto += '<tr>';
+            tr_texto += '<td style="width: 70%"></td>';
+            tr_texto += `<td style="width: 30%"><button type="button" class="btn btn-danger btn-block" onclick="eliminar_tratamiento('${tratamiento.medicine}')"><i class="bx bx-x"></i> Eliminar</button></td>`;
+            tr_texto += '</tr>';
+        });
+        $('#a_tratamientos').html(tr_texto);
+
 
 
         //DIAGNOSTICOS PRESUNTIVOS------------------------------------------------------------------------------------------------

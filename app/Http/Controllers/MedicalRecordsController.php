@@ -2789,6 +2789,7 @@ class MedicalRecordsController extends Controller
                         ->where('medical_diagnoses.type', '=', 'P')
                         ->get();
         $jsonDP = json_encode($diagnoses_p, JSON_UNESCAPED_UNICODE);
+
         $diagnoses_d = DB::table('medical_diagnoses')
                         ->join('diagnoses', 'diagnoses.id', '=', 'medical_diagnoses.diagnosis_id')
                         ->select('diagnoses.id')
@@ -2798,12 +2799,52 @@ class MedicalRecordsController extends Controller
                         ->get();
         $jsonDD = json_encode($diagnoses_d, JSON_UNESCAPED_UNICODE);
 
-        $treatments = MedicalTreatments::where('history_id', '=', $id)->get();
-        //$jsonTR = json_encode($treatments, JSON_UNESCAPED_UNICODE);
+        $laboratorios = DB::table('medical_work_plans')
+                            ->join('procedures', 'procedures.id', '=', 'medical_work_plans.procedure_id')
+                            ->select('procedures.id')
+                            ->selectRaw('CONCAT(procedures.type, " - ", procedures.description) AS text')
+                            ->where('medical_work_plans.history_id', '=', $id)
+                            ->where('medical_work_plans.type', '=', 'L')
+                            ->get();
+        $jsonLB = json_encode($laboratorios, JSON_UNESCAPED_UNICODE);
 
-        dd($treatments);
+        $imagenes = DB::table('medical_work_plans')
+                        ->join('procedures', 'procedures.id', '=', 'medical_work_plans.procedure_id')
+                        ->select('procedures.id')
+                        ->selectRaw('CONCAT(procedures.type, " - ", procedures.description) AS text')
+                        ->where('medical_work_plans.history_id', '=', $id)
+                        ->where('medical_work_plans.type', '=', 'I')
+                        ->get();
+        $jsonIM = json_encode($imagenes, JSON_UNESCAPED_UNICODE);
 
-        return view('edit_history', compact('history', 'person', 'personHistory'), ['jsonDP' => $jsonDP, 'jsonDD' => $jsonDD, 'jsonTR' => $jsonTR]);
+        $procedimientos = MedicalProcedures::select('description as text')
+                            ->where('history_id', '=', $id)
+                            ->get();
+        $jsonPR = json_encode($procedimientos, JSON_UNESCAPED_UNICODE);
+
+        $interconsultas = DB::table('medical_interconsultation')
+                            ->join('specialties', 'specialties.id', '=', 'medical_interconsultation.specialty_id')
+                            ->select('specialties.id', 'specialties.description as text')
+                            ->where('medical_interconsultation.history_id', '=', $id)
+                            ->get();
+        $jsonIN = json_encode($interconsultas, JSON_UNESCAPED_UNICODE);
+
+        $treatments = MedicalTreatments::select('medicine', 'shape', 'dose', 'quantity')
+                        ->where('history_id', '=', $id)
+                        ->get();
+        $jsonTR = json_encode($treatments, JSON_UNESCAPED_UNICODE);
+
+        return view('edit_history', compact('history', 'person', 'personHistory'),
+                                    [
+                                        'jsonDP' => $jsonDP,
+                                        'jsonDD' => $jsonDD,
+                                        'jsonTR' => $jsonTR,
+                                        'jsonLB' => $jsonLB,
+                                        'jsonIM' => $jsonIM,
+                                        'jsonPR' => $jsonPR,
+                                        'jsonIN' => $jsonIN
+                                    ]
+                                );
     }
 
     public function update(Request $request, $id)
