@@ -25,6 +25,7 @@
                         <!-- form start -->
                         <form action="{{ route('history.update', $history->id) }}" method="POST">
                             @csrf
+                            @method("PUT")
                             <div class="card-body">
                                 <div class="card card-primary card-outline card-outline-tabs">
                                     <div class="card-header p-0 pt-1 border-bottom-0">
