@@ -2885,8 +2885,9 @@ class MedicalRecordsController extends Controller
         $historia->save();
 
         //guardamos los diagnosticos del paciente--------------------------------------------
+        MedicalDiagnoses::where('history_id', '=', $id)->delete();
+
         if(count($presuntivos) > 0){
-            
             foreach($presuntivos as $presuntivo){
                 $pre = new MedicalDiagnoses();
                 $pre->history_id = $historia->id;
@@ -2909,6 +2910,81 @@ class MedicalRecordsController extends Controller
                 $def->save();
             }
         }
+
+        //guardamos los laboratorios y las imagenes del paciente-----------------------------
+        MedicalWorkPlans::where('history_id', '=', $id)->delete();
+
+        if(count($laboratorios) > 0){
+            foreach($laboratorios as $laboratorio){
+                $lab = new MedicalWorkPlans();
+                $lab->history_id = $historia->id;
+                $lab->procedure_id = $laboratorio->id;
+                $lab->type = 'L';
+                $lab->created_at = Carbon::now();
+                $lab->updated_at = Carbon::now();
+                $lab->save();
+            }
+        }
+
+        if(count($radiologicos) > 0){
+            foreach($radiologicos as $radiologico){
+                $img = new MedicalWorkPlans();
+                $img->history_id = $historia->id;
+                $img->procedure_id = $radiologico->id;
+                $img->type = 'I';
+                $img->created_at = Carbon::now();
+                $img->updated_at = Carbon::now();
+                $img->save();
+            }
+        }
+
+        //guardamos los procedimientos del paciente------------------------------------------
+        MedicalProcedures::where('history_id', '=', $id)->delete();
+
+        if(count($procedimientos) > 0){
+            foreach($procedimientos as $procedimiento){
+                $pro = new MedicalProcedures();
+                $pro->history_id = $historia->id;
+                $pro->description = $procedimiento->text;
+                $pro->created_at = Carbon::now();
+                $pro->updated_at = Carbon::now();
+                $pro->save();
+            }
+        }
+
+        //guardamos las interconsultas del paciente------------------------------------------
+        MedicalInterconsultation::where('history_id', '=', $id)->delete();
+
+        if(count($interconsultas) > 0){
+            foreach($interconsultas as $interconsulta){
+                $int = new MedicalInterconsultation();
+                $int->history_id = $historia->id;
+                $int->specialty_id = $interconsulta->id;
+                $int->created_at = Carbon::now();
+                $int->updated_at = Carbon::now();
+                $int->save();
+            }
+        }
+
+        //guardamos los tratamientos del paciente--------------------------------------------
+        MedicalTreatments::where('history_id', '=', $id)->delete();
+
+        if(count($tratamientos) > 0){
+            foreach($tratamientos as $tratamiento){
+                $tra = new MedicalTreatments();
+                $tra->history_id = $historia->id;
+                $tra->medicine = $tratamiento->medicine;
+                $tra->shape = $tratamiento->shape;
+                $tra->dose = $tratamiento->dose;
+                $tra->quantity = $tratamiento->quantity;
+                $tra->indications = '';
+                $tra->created_at = Carbon::now();
+                $tra->updated_at = Carbon::now();
+                $tra->save();
+            }
+        }
+
+        return redirect()->route('history.index', $request->post('person_id'))->with('success','Historia modificada correctamente');
     }
 
     public function destroy(MedicalRecords $medicalRecords)
